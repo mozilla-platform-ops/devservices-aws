@@ -1,5 +1,8 @@
 # This file contains shared global resources
 
+# account_id = ${data.aws_caller_identity.current.account_id}
+data "aws_caller_identity" "current" { }
+
 # Configure remote state
 # outputs can be accessed via ${terraform_remote_state.base.output_name}
 data "terraform_remote_state" "base" {
