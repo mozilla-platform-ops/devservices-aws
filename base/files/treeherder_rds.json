@@ -1,0 +1,51 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1436277160000",
+            "Effect": "Allow",
+            "Action": [
+                "rds:ApplyPendingMaintenanceAction",
+                "rds:CopyDBParameterGroup",
+                "rds:CopyDBSnapshot",
+                "rds:CopyOptionGroup",
+                "rds:CreateDBParameterGroup",
+                "rds:CreateDBSnapshot",
+                "rds:CreateOptionGroup",
+                "rds:Describe*",
+                "rds:DownloadCompleteDBLogFile",
+                "rds:DownloadDBLogFilePortion",
+                "rds:ListTagsForResource",
+                "rds:ModifyDBInstance",
+                "rds:ModifyDBParameterGroup",
+                "rds:ModifyOptionGroup",
+                "rds:RebootDBInstance",
+                "rds:RestoreDBInstanceFromDBSnapshot",
+                "rds:RestoreDBInstanceToPointInTime",
+                "rds:ResetDBParameterGroup"
+            ],
+            "Resource": [
+                "arn:aws:rds:us-east-1:699292812394:db:treeherder-*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListAttachedUserPolicies",
+                "iam:ListPolicies",
+                "iam:ListRoles",
+                "rds:Describe*",
+                "rds:ListTagsForResource",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeAccountAttributes",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:DescribeAlarms",
+                "sns:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowEC2ToReadKeyBucket",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::699292812394:role/ec2-assume-role"
+            },
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::moz-devservices-keys"
+        },
+        {
+            "Sid": "AllowEC2ToReadKeyBucketObjects",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::699292812394:role/ec2-assume-role"
+            },
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": "arn:aws:s3:::moz-devservices-keys/*"
+        }
+    ]
+}

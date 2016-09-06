@@ -1,0 +1,22 @@
+
+# SSL
+
+After creating the RDS instance, configure the master account to require SSL, per
+http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.SSLSupport
+
+$ wget http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+$ mysql -h host -u username -p
+mysql> GRANT USAGE ON *.* TO 'username'@'%' REQUIRE SSL;
+
+Thereafter, connect to mysql with SSL:
+
+$ mysql -h host --ssl_ca=rds-combined-ca-bundle.pem --ssl-verify-server-cert -u username -p
+
+
+# Param groups
+Some parameters may be modified dynamically, while others are static and thus require a reboot to apply. Static params must have 'apply_method' set to 'pending-reboot', rather than the default of 'immediate'.
+
+A quick and dirty query to list all static params:
+aws rds describe-db-parameters --db-parameter-group-name default.mysql5.6 | jq -r '.Parameters | map([.ParameterName, .ApplyType] | join(", "))' | grep static
+
+
