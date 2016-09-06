@@ -10,10 +10,18 @@ resource "aws_iam_group_membership" "admin-groupmem" {
     name = "admin-group-membership"
     group = "${aws_iam_group.admin-group.name}"
     users = [
+        "${aws_iam_user.dividehex.name}",
+        "${aws_iam_user.dhouse.name}",
         "${aws_iam_user.fubar.name}",
         "${aws_iam_user.gps.name}",
         "${aws_iam_user.hwine.name}"
     ]
+}
+resource "aws_iam_user" "dividehex" {
+    name = "dividehex"
+}
+resource "aws_iam_user" "dhouse" {
+    name = "dhouse"
 }
 resource "aws_iam_user" "fubar" {
     name = "fubar"
