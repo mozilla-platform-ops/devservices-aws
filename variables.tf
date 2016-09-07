@@ -1,6 +1,3 @@
-data "aws_caller_identity" "current" { }
-# ${data.aws_caller_identity.current.account_id}
-
 variable "base_bucket" {
     description = "S3 bucket for storing terraform state, ssh pub keys, etc"
     default = "moz-devservices"
