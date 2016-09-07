@@ -11,7 +11,6 @@ resource "aws_vpc" "treeherder-vpc" {
     tags {
         Name = "treeherder-vpc"
         BugID = "1239660"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 
@@ -20,7 +19,6 @@ resource "aws_internet_gateway" "treeherder-gw" {
     tags {
         Name = "treeherder-gw"
         BugID = "1239660"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 
@@ -38,7 +36,6 @@ resource "aws_route_table" "treeherder-rt" {
     tags {
         Name = "treeherder-rt"
         BugID = "1239660"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 
@@ -51,7 +48,6 @@ resource "aws_subnet" "treeherder-subnet-1a" {
     tags {
         Name = "treeherder-subnet-1a"
         BugID = "1239660"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 
@@ -63,7 +59,6 @@ resource "aws_subnet" "treeherder-subnet-1b" {
     tags {
         Name = "treeherder-subnet-1b"
         BugID = "1239660"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 
@@ -75,7 +70,6 @@ resource "aws_subnet" "treeherder-subnet-1d" {
     tags {
         Name = "treeherder-subnet-1d"
         BugID = "1239660"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 
@@ -87,6 +81,5 @@ resource "aws_subnet" "treeherder-subnet-1e" {
     tags {
         Name = "treeherder-subnet-1e"
         BugID = "1239660"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }

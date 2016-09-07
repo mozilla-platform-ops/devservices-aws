@@ -23,7 +23,6 @@ resource "aws_security_group" "jumphost_use1_sg" {
     }
     tags {
         Name = "jumphost-external-sg"
-        Src = "git-internal.mozilla.org:devservices/access-control"
     }
 }
 resource "aws_security_group" "jumphost_internal_use1_sg" {
@@ -44,7 +43,6 @@ resource "aws_security_group" "jumphost_internal_use1_sg" {
     }
     tags {
         Name = "jumphost-internal-sg"
-        Src = "git-internal.mozilla.org:devservices/access-control"
     }
 }
 resource "aws_launch_configuration" "jumphost_use1_lc" {
@@ -82,11 +80,6 @@ resource "aws_autoscaling_group" "jumphost_use1_asg" {
         value = "autoscale instance"
         propagate_at_launch = true
     }
-    tag {
-        key = "Src"
-        value = "git-internal.mozilla.org:devservices/access-control"
-        propagate_at_launch = true
-    }
 }
 
 #---[ US-WEST-1 ]---
@@ -112,7 +105,6 @@ resource "aws_security_group" "jumphost_usw2_sg" {
     }
     tags {
         Name = "jumphost-external-sg"
-        Src = "git-internal.mozilla.org:devservices/access-control"
     }
 }
 
@@ -134,7 +126,6 @@ resource "aws_security_group" "jumphost_internal_usw2_sg" {
     }
     tags {
         Name = "jumphost-internal-sg"
-        Src = "git-internal.mozilla.org:devservices/access-control"
     }
 }
 # NB: can't query region when using provider aliases, so specify it manually
@@ -171,11 +162,6 @@ resource "aws_autoscaling_group" "jumphost_usw2_asg" {
     tag {
         key = "Type"
         value = "autoscale instance"
-        propagate_at_launch = true
-    }
-    tag {
-        key = "Src"
-        value = "git-internal.mozilla.org:devservices/access-control"
         propagate_at_launch = true
     }
 }

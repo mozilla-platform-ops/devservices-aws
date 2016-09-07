@@ -8,7 +8,6 @@ resource "aws_db_subnet_group" "treeherder-dbgrp" {
     tags {
         Name = "treeherder-dbgrp"
         BugID = "1176486"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 
@@ -198,7 +197,6 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     tags {
         Name = "treeherder-stage-rds"
         BugID = "1176486"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 
@@ -226,6 +224,5 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     tags {
         Name = "treeherder-prod-rds"
         BugID = "1276307"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }

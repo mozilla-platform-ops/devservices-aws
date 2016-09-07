@@ -29,7 +29,6 @@ resource "aws_security_group" "treeherder_heroku-sg" {
     tags {
         Name = "treeherder_heroku-sg"
         BugID = "1176486"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 resource "aws_volume_attachment" "treeherder_att" {
@@ -45,7 +44,6 @@ resource "aws_ebs_volume" "treeherder_ebs" {
     tags {
         Name = "treeherder_db_import"
         BugID = "1176486"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }
 resource "aws_instance" "admin" {
@@ -58,6 +56,5 @@ resource "aws_instance" "admin" {
     tags {
         Name = "treeherder db import host"
         BugID = "1176486"
-        Src = "git-internal.mozilla.org:devservices/treeherder"
     }
 }

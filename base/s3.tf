@@ -27,7 +27,6 @@ resource "aws_s3_bucket" "carton_bucket" {
     tags {
         Name = "Bugzilla Perl Cartons"
         BugId = "1254582"
-        Src = "git-internal.mozilla.org:devservices/access-control"
     }
 }
 
@@ -41,7 +40,6 @@ resource "aws_s3_bucket" "key_bucket" {
     }
     tags {
         Name = "SSH public keys"
-        Src = "git-internal.mozilla.org:devservices/access-control"
     }
 }
 
