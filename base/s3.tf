@@ -13,6 +13,14 @@ resource "aws_s3_bucket" "base-bucket" {
         Env = "shared"
     }
 }
+resource "aws_s3_bucket_notification" "base_bucket-notify" {
+    bucket = "${aws_s3_bucket.base-bucket.id}"
+    topic {
+        topic_arn = "${aws_sns_topic.tfstate-sns_topic.arn}"
+        events = ["s3:ObjectCreated:*"]
+        filter_prefix = "tf_state/"
+    }
+}
 
 resource "aws_s3_bucket" "carton_bucket" {
     bucket = "moz-devservices-bmocartons"
