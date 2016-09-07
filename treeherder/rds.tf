@@ -173,6 +173,33 @@ resource "aws_db_parameter_group" "th_replication-pg" {
     }
 }
 
+resource "aws_db_instance" "treeherder-heroku" {
+    identifier = "treeherder-heroku"
+    storage_type = "gp2"
+    allocated_storage = 400
+    engine = "mysql"
+    engine_version = "5.6.29"
+    instance_class = "db.m4.xlarge"
+    username = "th_admin"
+    backup_retention_period = 1
+    backup_window = "07:00-07:30"
+    maintenance_window = "Sun:08:00-Sun:08:30"
+    multi_az = true
+    port = "3306"
+    publicly_accessible = true
+    parameter_group_name = "default.mysql5.6"
+    option_group_name = "default:mysql-5-6"
+    auto_minor_version_upgrade = false
+    db_subnet_group_name = "default"
+    vpc_security_group_ids = ["sg-3081fd54", "sg-8b81fdef"]
+    tags {
+        App = "treeherder"
+        Env = "dev"
+        Type = "heroku-db"
+        workload-type = "production"
+    }
+}
+
 resource "aws_db_instance" "treeherder-stage-rds" {
     identifier = "treeherder-stage"
     storage_type = "gp2"
