@@ -4,6 +4,66 @@
 # vpn-connection vpn-ba6671db
 # done: route rtb-445e6020
 
+# original sg for treeherder-heroku rds, in default vpc
+resource "aws_security_group" "treeherder_heroku_sg" {
+    name = "treeherder_heroku_sg"
+    description = "Treeherder Heroku RDS access"
+    vpc_id = "vpc-ccf5aca9"
+    tags {
+        Name = "treeherder_heroku_sg"
+    }
+}
+resource "aws_security_group_rule" "treeherder_heroku_sg" {
+    type = "ingress"
+    from_port = 3306
+    to_port = 3306
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    security_group_id = "${aws_security_group.treeherder_heroku_sg.id}"
+}
+resource "aws_security_group_rule" "treeherder_heroku_sg-1" {
+    type = "egress"
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    security_group_id = "${aws_security_group.treeherder_heroku_sg.id}"
+}
+
+resource "aws_security_group" "treeherder_heroku-sg" {
+    name = "treeherder_heroku-sg"
+    description = "Treeherder Heroku RDS access"
+    vpc_id = "${aws_vpc.treeherder-vpc.id}"
+    ingress {
+        from_port = 8
+        to_port = "-1"
+        protocol = "icmp"
+        cidr_blocks = ["10.0.0.0/8"]
+    }
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 3306
+        to_port = 3306
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    tags {
+        Name = "treeherder_heroku-sg"
+        BugID = "1176486"
+    }
+}
+
 resource "aws_vpc" "treeherder-vpc" {
     cidr_block = "10.191.3.0/24"
     enable_dns_support = "True"

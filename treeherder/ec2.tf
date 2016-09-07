@@ -1,36 +1,3 @@
-resource "aws_security_group" "treeherder_heroku-sg" {
-    name = "treeherder_heroku-sg"
-    description = "Treeherder Heroku RDS access"
-    vpc_id = "${aws_vpc.treeherder-vpc.id}"
-    ingress {
-        from_port = 8
-        to_port = "-1"
-        protocol = "icmp"
-        cidr_blocks = ["10.0.0.0/8"]
-    }
-    ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-    ingress {
-        from_port = 3306
-        to_port = 3306
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-    egress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-    tags {
-        Name = "treeherder_heroku-sg"
-        BugID = "1176486"
-    }
-}
 resource "aws_volume_attachment" "treeherder_att" {
     device_name = "/dev/sdg"
     volume_id = "${aws_ebs_volume.treeherder_ebs.id}"
