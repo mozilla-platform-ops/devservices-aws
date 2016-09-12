@@ -11,7 +11,7 @@ data "terraform_remote_state" "base" {
         encrypt = true
         acl = "private"
         bucket = "${var.base_bucket}"
-        region = "${var.region}"
+        region = "us-east-1"
         key = "tf_state/base/terraform.tfstate"
     }
 }
