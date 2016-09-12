@@ -2,11 +2,12 @@
 # Region specific resources make use of a "provider alias" to override the base setting
 #---[ US-WEST-2 ]---
 resource "aws_vpc" "usw2_default-vpc" {
-    cidr_block = "${var.vpc_map["usw2_default"]}"
     provider = "aws.us-west-2"
+    cidr_block = "${var.vpc_map["usw2_default"]}"
 }
 
 resource "aws_subnet" "jumphost_usw2_subnet" {
+    provider = "aws.us-west-2"
     vpc_id = "${aws_vpc.usw2_default-vpc.id}"
     availability_zone = "us-west-2a"
     cidr_block = "172.31.254.0/24"

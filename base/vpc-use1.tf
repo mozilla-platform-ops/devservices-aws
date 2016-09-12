@@ -3,11 +3,12 @@
 
 #---[ US-EAST-1 ]---
 resource "aws_vpc" "use1_default-vpc" {
-    cidr_block = "${var.vpc_map["use1_default"]}"
     provider = "aws.us-east-1"
+    cidr_block = "${var.vpc_map["use1_default"]}"
 }
 
 resource "aws_subnet" "jumphost_use1_subnet" {
+    provider = "aws.us-east-1"
     vpc_id = "${aws_vpc.use1_default-vpc.id}"
     availability_zone = "us-east-1a"
     cidr_block = "172.31.254.0/24"
