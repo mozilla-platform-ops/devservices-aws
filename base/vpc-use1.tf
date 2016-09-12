@@ -7,6 +7,16 @@ resource "aws_vpc" "use1_default-vpc" {
     provider = "aws.us-east-1"
 }
 
+resource "aws_subnet" "jumphost_use1_subnet" {
+    vpc_id = "${aws_vpc.use1_default-vpc.id}"
+    availability_zone = "us-east-1a"
+    cidr_block = "172.31.254.0/24"
+    map_public_ip_on_launch = true
+    tags {
+        Name = "jumphost-subnet"
+    }
+}
+
 resource "aws_security_group" "jumphost_use1_sg" {
     provider = "aws.us-east-1"
     name_prefix = "jumphost_use1_sg-"

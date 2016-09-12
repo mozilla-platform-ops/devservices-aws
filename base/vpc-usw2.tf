@@ -6,6 +6,16 @@ resource "aws_vpc" "usw2_default-vpc" {
     provider = "aws.us-west-2"
 }
 
+resource "aws_subnet" "jumphost_usw2_subnet" {
+    vpc_id = "${aws_vpc.usw2_default-vpc.id}"
+    availability_zone = "us-west-2a"
+    cidr_block = "172.31.254.0/24"
+    map_public_ip_on_launch = true
+    tags {
+        Name = "jumphost-subnet"
+    }
+}
+
 resource "aws_security_group" "jumphost_usw2_sg" {
     provider = "aws.us-west-2"
     name_prefix = "jumphost_usw2_sg-"
