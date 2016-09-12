@@ -22,6 +22,8 @@ variable "vpc_map" {
     description = "Map of VPCs and CIDR blocks"
     type = "map"
     default = {
+        use1_default = "172.31.0.0/16"
+        usw2_default = "172.31.0.0/16"
         treeherder-vpc = "10.191.3.0/24"
     }
 }
