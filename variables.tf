@@ -17,3 +17,11 @@ variable "centos7_amis" {
         us-west-2 = "ami-d2c924b2"
     }
 }
+
+variable "vpc_map" {
+    description = "Map of VPCs and CIDR blocks"
+    type = "map"
+    default = {
+        treeherder-vpc = "10.191.3.0/24"
+    }
+}
