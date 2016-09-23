@@ -176,7 +176,7 @@ resource "aws_db_parameter_group" "th_replication-pg" {
 resource "aws_db_instance" "treeherder-heroku" {
     identifier = "treeherder-heroku"
     storage_type = "gp2"
-    allocated_storage = 400
+    allocated_storage = 500
     engine = "mysql"
     engine_version = "5.6.29"
     instance_class = "db.m4.xlarge"
