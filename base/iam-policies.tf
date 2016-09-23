@@ -12,8 +12,22 @@ resource "aws_iam_policy" "manage_own_credentials-policy" {
 resource "aws_iam_policy_attachment" "manage_own_credentials-attach" {
     name = "manage_own_credentials-attach"
     groups = ["${aws_iam_group.netops-group.name}",
+              "${aws_iam_group.bmodevs-group.name}",
               "${aws_iam_group.treeherder_rds_access-group.name}"]
     policy_arn = "${aws_iam_policy.manage_own_credentials-policy.arn}"
+}
+# Access the Support Center: everyone
+resource "aws_iam_policy" "access_support-policy" {
+    name = "access_support-policy"
+    description = "Allow users to access the Support Center"
+    policy = "${file("files/access_support.json")}"
+}
+resource "aws_iam_policy_attachment" "access_support-attach" {
+    name = "access_support-attach"
+    groups = ["${aws_iam_group.netops-group.name}",
+              "${aws_iam_group.bmodevs-group.name}",
+              "${aws_iam_group.treeherder_rds_access-group.name}"]
+    policy_arn = "${aws_iam_policy.access_support-policy.arn}"
 }
 
 # Treeherder RDS access; Treeherder Devs
