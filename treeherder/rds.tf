@@ -242,7 +242,7 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     multi_az = "True"
     port = "3306"
     publicly_accessible = false
-    parameter_group_name = "th-import"
+    parameter_group_name = "th-replication"
     auto_minor_version_upgrade = "False"
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
