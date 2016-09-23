@@ -14,7 +14,7 @@ resource "aws_ebs_volume" "treeherder_ebs" {
     }
 }
 resource "aws_instance" "admin" {
-    instance_type = "t2.large"
+    instance_type = "m4.large"
     ami = "ami-0f8bce65"
     key_name = "fubar"
     subnet_id = "${aws_subnet.treeherder-subnet-1a.id}"
