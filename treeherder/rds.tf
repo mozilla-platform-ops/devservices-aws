@@ -230,13 +230,13 @@ resource "aws_db_instance" "treeherder-stage-rds" {
 resource "aws_db_instance" "treeherder-prod-rds" {
     identifier = "treeherder-prod"
     storage_type = "gp2"
-    allocated_storage = 500
+    allocated_storage = 750
     engine = "mysql"
     engine_version = "5.6.29"
-    instance_class = "db.m4.xlarge"
+    instance_class = "db.m4.2xlarge"
     username = "th_admin"
     password = "XXXXXXXXXXXXXXXX"
-    backup_retention_period = 1
+    backup_retention_period = 0
     backup_window = "07:00-07:30"
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = "True"
@@ -247,7 +247,7 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
-    monitoring_interval = 60
+    monitoring_interval = 0
     tags {
         Name = "treeherder-prod-rds"
         BugID = "1276307"
