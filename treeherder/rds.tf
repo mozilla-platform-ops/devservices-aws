@@ -171,6 +171,10 @@ resource "aws_db_parameter_group" "th_replication-pg" {
         name = "wait_timeout"
         value = "6000"
     }
+    parameter {
+        name = "sync_binlog"
+        value = "0"
+    }
 }
 
 resource "aws_db_instance" "treeherder-heroku" {
