@@ -93,10 +93,6 @@ resource "aws_db_parameter_group" "th_replication-pg" {
         apply_method = "pending-reboot"
     }
     parameter {
-        name = "innodb_flush_log_at_trx_commit"
-        value = "0"
-    }
-    parameter {
         name = "innodb_lock_wait_timeout"
         value = "50"
     }
