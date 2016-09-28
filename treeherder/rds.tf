@@ -247,7 +247,7 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
-    monitoring_interval = 0
+    monitoring_interval = 60
     tags {
         Name = "treeherder-prod-rds"
         BugID = "1276307"
