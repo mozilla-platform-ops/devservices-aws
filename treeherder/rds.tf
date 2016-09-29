@@ -244,7 +244,7 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     instance_class = "db.m4.2xlarge"
     username = "th_admin"
     password = "XXXXXXXXXXXXXXXX"
-    backup_retention_period = 0
+    backup_retention_period = 1
     backup_window = "07:00-07:30"
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = "True"
