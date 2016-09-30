@@ -28,7 +28,8 @@
                 "rds:ResetDBParameterGroup"
             ],
             "Resource": [
-                "arn:aws:rds:us-east-1:699292812394:db:treeherder-*"
+                "arn:aws:rds:us-east-1:699292812394:db:treeherder-*",
+                "arn:aws:rds:us-east-1:699292812394:es:treeherder-*"
             ]
         },
         {
