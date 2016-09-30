@@ -94,7 +94,7 @@ resource "aws_db_parameter_group" "th_replication-pg" {
     }
     parameter {
         name = "innodb_flush_log_at_trx_commit"
-        value = "1"
+        value = "2"
     }
     parameter {
         name = "innodb_lock_wait_timeout"
