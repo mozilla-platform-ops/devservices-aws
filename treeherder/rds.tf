@@ -181,6 +181,28 @@ resource "aws_db_parameter_group" "th_replication-pg" {
     }
 }
 
+resource "aws_db_parameter_group" "treeherder-pg" {
+    name = "treeherder"
+    family = "mysql5.6"
+    description = "Main Treeherder parameter group"
+    parameter {
+        name = "character_set_server"
+        value = "utf8"
+    }
+    parameter {
+        name = "collation_server"
+        value = "utf8_bin"
+    }
+    parameter {
+        name = "long_query_time"
+        value = "2"
+    }
+    parameter {
+        name = "slow_query_log"
+        value = "1"
+    }
+}
+
 resource "aws_db_instance" "treeherder-heroku" {
     identifier = "treeherder-heroku"
     storage_type = "gp2"
