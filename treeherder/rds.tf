@@ -181,6 +181,28 @@ resource "aws_db_parameter_group" "th_replication-pg" {
     }
 }
 
+resource "aws_db_parameter_group" "treeherder-pg" {
+    name = "treeherder"
+    family = "mysql5.6"
+    description = "Main Treeherder parameter group"
+    parameter {
+        name = "character_set_server"
+        value = "utf8"
+    }
+    parameter {
+        name = "collation_server"
+        value = "utf8_bin"
+    }
+    parameter {
+        name = "long_query_time"
+        value = "2"
+    }
+    parameter {
+        name = "slow_query_log"
+        value = "1"
+    }
+}
+
 resource "aws_db_instance" "treeherder-heroku" {
     identifier = "treeherder-heroku"
     storage_type = "gp2"
@@ -195,7 +217,7 @@ resource "aws_db_instance" "treeherder-heroku" {
     multi_az = true
     port = "3306"
     publicly_accessible = true
-    parameter_group_name = "default.mysql5.6"
+    parameter_group_name = "treeherder"
     option_group_name = "default:mysql-5-6"
     auto_minor_version_upgrade = false
     db_subnet_group_name = "default"
@@ -223,7 +245,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     multi_az = "True"
     port = "3306"
     publicly_accessible = true
-    parameter_group_name = "default.mysql5.6"
+    parameter_group_name = "treeherder"
     auto_minor_version_upgrade = "False"
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
