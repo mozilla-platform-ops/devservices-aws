@@ -271,8 +271,8 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = "True"
     port = "3306"
-    publicly_accessible = false
-    parameter_group_name = "th-replication"
+    publicly_accessible = true
+    parameter_group_name = "treeherder"
     auto_minor_version_upgrade = "False"
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
