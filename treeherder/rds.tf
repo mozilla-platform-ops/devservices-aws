@@ -194,6 +194,10 @@ resource "aws_db_parameter_group" "treeherder-pg" {
         value = "utf8_bin"
     }
     parameter {
+        name = "log_output"
+        value = "FILE"
+    }
+    parameter {
         name = "long_query_time"
         value = "2"
     }
