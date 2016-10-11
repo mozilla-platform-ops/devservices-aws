@@ -205,6 +205,10 @@ resource "aws_db_parameter_group" "treeherder-pg" {
         name = "slow_query_log"
         value = "1"
     }
+    parameter {
+        name = "sql_mode"
+        value = "NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES"
+    }
 }
 
 resource "aws_db_instance" "treeherder-heroku" {
