@@ -7,6 +7,3 @@ output "stage_rds" {
 output "prod_rds" {
     value = "${aws_db_instance.treeherder-prod-rds.address}"
 }
-output "admin_host" {
-    value = "${aws_instance.admin.public_dns}"
-}
