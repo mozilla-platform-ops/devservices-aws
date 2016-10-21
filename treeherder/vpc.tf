@@ -85,8 +85,8 @@ resource "aws_security_group" "treeherder_heroku-sg" {
 
 resource "aws_vpc" "treeherder-vpc" {
     cidr_block = "${var.vpc_map["treeherder-vpc"]}"
-    enable_dns_support = "True"
-    enable_dns_hostnames = "True"
+    enable_dns_support = true
+    enable_dns_hostnames = true
     tags {
         Name = "treeherder-vpc"
         BugID = "1239660"
@@ -123,7 +123,7 @@ resource "aws_subnet" "treeherder-subnet-1a" {
     vpc_id = "${aws_vpc.treeherder-vpc.id}"
     availability_zone = "us-east-1a"
     cidr_block = "${cidrsubnet("${var.vpc_map["treeherder-vpc"]}", 2, 0)}"
-    map_public_ip_on_launch = "False"
+    map_public_ip_on_launch = false
     tags {
         Name = "treeherder-subnet-1a"
         BugID = "1239660"
@@ -134,7 +134,7 @@ resource "aws_subnet" "treeherder-subnet-1b" {
     vpc_id = "${aws_vpc.treeherder-vpc.id}"
     availability_zone = "us-east-1b"
     cidr_block = "${cidrsubnet("${var.vpc_map["treeherder-vpc"]}", 2, 1)}"
-    map_public_ip_on_launch = "False"
+    map_public_ip_on_launch = false
     tags {
         Name = "treeherder-subnet-1b"
         BugID = "1239660"
@@ -145,7 +145,7 @@ resource "aws_subnet" "treeherder-subnet-1d" {
     vpc_id = "${aws_vpc.treeherder-vpc.id}"
     availability_zone = "us-east-1d"
     cidr_block = "${cidrsubnet("${var.vpc_map["treeherder-vpc"]}", 2, 2)}"
-    map_public_ip_on_launch = "False"
+    map_public_ip_on_launch = false
     tags {
         Name = "treeherder-subnet-1d"
         BugID = "1239660"
@@ -156,7 +156,7 @@ resource "aws_subnet" "treeherder-subnet-1e" {
     vpc_id = "${aws_vpc.treeherder-vpc.id}"
     availability_zone = "us-east-1e"
     cidr_block = "${cidrsubnet("${var.vpc_map["treeherder-vpc"]}", 2, 3)}"
-    map_public_ip_on_launch = "False"
+    map_public_ip_on_launch = false
     tags {
         Name = "treeherder-subnet-1e"
         BugID = "1239660"
