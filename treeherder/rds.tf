@@ -6,7 +6,11 @@ resource "aws_db_subnet_group" "treeherder-dbgrp" {
                   "${aws_subnet.treeherder-subnet-1d.id}",
                   "${aws_subnet.treeherder-subnet-1e.id}"]
     tags {
-        Name = "treeherder-dbgrp"
+        Name = "treeherder-prod-dbgrp"
+        App = "treeherder"
+        Type = "dbgrp"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1176486"
     }
 }
@@ -39,6 +43,13 @@ resource "aws_db_parameter_group" "treeherder-pg" {
         name = "sql_mode"
         value = "NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES"
     }
+    tags {
+        Name = "treeherder-prod-pg"
+        App = "treeherder"
+        Type = "pg"
+        Env = "prod"
+        Owner = "relops"
+    }
 }
 
 resource "aws_db_instance" "treeherder-heroku" {
@@ -61,10 +72,12 @@ resource "aws_db_instance" "treeherder-heroku" {
     db_subnet_group_name = "default"
     vpc_security_group_ids = ["sg-3081fd54", "sg-8b81fdef"]
     tags {
+        Name = "treeherder-dev-rds"
         App = "treeherder"
+        Type = "rds"
         Env = "dev"
-        Type = "heroku-db"
-        workload-type = "production"
+        Owner = "relops"
+        BugID = "1176486"
     }
 }
 
@@ -91,6 +104,10 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     monitoring_interval = 60
     tags {
         Name = "treeherder-stage-rds"
+        App = "treeherder"
+        Type = "rds"
+        Env = "stage"
+        Owner = "relops"
         BugID = "1176486"
     }
 }
@@ -118,6 +135,10 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     monitoring_interval = 60
     tags {
         Name = "treeherder-prod-rds"
+        App = "treeherder"
+        Type = "rds"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1276307"
     }
 }

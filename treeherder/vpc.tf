@@ -31,6 +31,14 @@ resource "aws_security_group" "treeherder_heroku_sg" {
     tags {
         Name = "treeherder_heroku_sg"
     }
+    tags {
+        Name = "treeherder-dev-sg"
+        App = "treeherder"
+        Type = "sg"
+        Env = "dev"
+        Owner = "relops"
+        BugID = "1176486"
+    }
 }
 resource "aws_security_group_rule" "treeherder_heroku_sg" {
     type = "ingress"
@@ -78,7 +86,11 @@ resource "aws_security_group" "treeherder_heroku-sg" {
         cidr_blocks = ["0.0.0.0/0"]
     }
     tags {
-        Name = "treeherder_heroku-sg"
+        Name = "treeherder-prod-sg"
+        App = "treeherder"
+        Type = "sg"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1176486"
     }
 }
@@ -88,7 +100,11 @@ resource "aws_vpc" "treeherder-vpc" {
     enable_dns_support = true
     enable_dns_hostnames = true
     tags {
-        Name = "treeherder-vpc"
+        Name = "treeherder-prod-vpc"
+        App = "treeherder"
+        Type = "vpc"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1239660"
     }
 }
@@ -96,7 +112,11 @@ resource "aws_vpc" "treeherder-vpc" {
 resource "aws_internet_gateway" "treeherder-gw" {
     vpc_id = "${aws_vpc.treeherder-vpc.id}"
     tags {
-        Name = "treeherder-gw"
+        Name = "treeherder-prod-igw"
+        App = "treeherder"
+        Type = "igw"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1239660"
     }
 }
@@ -113,7 +133,11 @@ resource "aws_route_table" "treeherder-rt" {
         gateway_id = "${aws_internet_gateway.treeherder-gw.id}"
     }
     tags {
-        Name = "treeherder-rt"
+        Name = "treeherder-prod-rt"
+        App = "treeherder"
+        Type = "rt"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1239660"
     }
 }
@@ -125,7 +149,11 @@ resource "aws_subnet" "treeherder-subnet-1a" {
     cidr_block = "${cidrsubnet("${var.vpc_map["treeherder-vpc"]}", 2, 0)}"
     map_public_ip_on_launch = false
     tags {
-        Name = "treeherder-subnet-1a"
+        Name = "treeherder-prod-subnet-1a"
+        App = "treeherder"
+        Type = "subnet"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1239660"
     }
 }
@@ -136,7 +164,11 @@ resource "aws_subnet" "treeherder-subnet-1b" {
     cidr_block = "${cidrsubnet("${var.vpc_map["treeherder-vpc"]}", 2, 1)}"
     map_public_ip_on_launch = false
     tags {
-        Name = "treeherder-subnet-1b"
+        Name = "treeherder-prod-subnet-1b"
+        App = "treeherder"
+        Type = "subnet"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1239660"
     }
 }
@@ -147,7 +179,11 @@ resource "aws_subnet" "treeherder-subnet-1d" {
     cidr_block = "${cidrsubnet("${var.vpc_map["treeherder-vpc"]}", 2, 2)}"
     map_public_ip_on_launch = false
     tags {
-        Name = "treeherder-subnet-1d"
+        Name = "treeherder-prod-subnet-1d"
+        App = "treeherder"
+        Type = "subnet"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1239660"
     }
 }
@@ -158,7 +194,11 @@ resource "aws_subnet" "treeherder-subnet-1e" {
     cidr_block = "${cidrsubnet("${var.vpc_map["treeherder-vpc"]}", 2, 3)}"
     map_public_ip_on_launch = false
     tags {
-        Name = "treeherder-subnet-1e"
+        Name = "treeherder-prod-subnet-1e"
+        App = "treeherder"
+        Type = "subnet"
+        Env = "prod"
+        Owner = "relops"
         BugID = "1239660"
     }
 }
