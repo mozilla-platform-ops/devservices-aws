@@ -10,3 +10,8 @@ output "allow_use1_jumphost_sg_id" {
 output "allow_usw2_jumphost_sg_id" {
     value = "${aws_security_group.jumphost_usw2_sg.id}"
 }
+
+# mozops.net hosted zone ID
+output "mozops_route53_zone_id" {
+    value = "${aws_route53_zone.mozops.zone_id}"
+}
