@@ -74,7 +74,6 @@ resource "aws_iam_role" "kinesis_firehose_github_webhooks" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "",
             "Effect": "Allow",
             "Principal": {
             "Service": "firehose.amazonaws.com"
@@ -94,7 +93,6 @@ resource "aws_iam_role_policy" "firehose_github_webhooks" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "",
             "Effect": "Allow",
             "Action": [
                 "s3:AbortMultipartUpload",
@@ -109,7 +107,6 @@ resource "aws_iam_role_policy" "firehose_github_webhooks" {
             ]
         },
         {
-            "Sid": "",
             "Effect": "Allow",
             "Action": [
                 "logs:PutLogEvents"
