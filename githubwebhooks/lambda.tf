@@ -15,7 +15,7 @@ resource "aws_lambda_function" "lambda_pulse" {
     s3_key = "github_lambda.zip"
     function_name = "github-webhooks-pulse"
     handler = "lambda_pulse.handler"
-    role = "${aws_iam_role.lambda_github_webhooks_receive.arn}"
+    role = "${aws_iam_role.lambda_github_webhooks_pulse.arn}"
     description = "Publish GitHub web hooks to Pulse"
     runtime = "python2.7"
     memory_size = 128
