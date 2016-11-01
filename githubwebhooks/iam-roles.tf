@@ -103,7 +103,8 @@ resource "aws_iam_role_policy" "firehose_github_webhooks" {
                 "s3:PutObject"
             ],
             "Resource": [
-                "${aws_s3_bucket.webhooks_bucket.arn}"
+                "${aws_s3_bucket.webhooks_bucket.arn}",
+                "${aws_s3_bucket.webhooks_bucket.arn}/*"
             ]
         },
         {
