@@ -1,28 +1,3 @@
-# NetOps-created resources for SCL3-AWS VPN (bug 1239660):
-resource "aws_vpn_gateway" "take-me-to-SCL3" {
-    vpc_id = "${aws_vpc.treeherder-vpc.id}"
-    tags {
-        Name = "take-me-to-SCL3"
-    }
-}
-resource "aws_customer_gateway" "fw1_scl3_mozilla_net" {
-    type = "ipsec.1"
-    bgp_asn = "65022"
-    ip_address = "63.245.214.100"
-    tags {
-        Name = "fw1_scl3_mozilla_net"
-    }
-}
-resource "aws_vpn_connection" "to-scl3" {
-    vpn_gateway_id = "${aws_vpn_gateway.take-me-to-SCL3.id}"
-    customer_gateway_id = "${aws_customer_gateway.fw1_scl3_mozilla_net.id}"
-    type = "ipsec.1"
-    static_routes_only = ""
-    tags {
-        Name = "to-scl3"
-    }
-}
-
 # original sg for treeherder-heroku rds, in default vpc
 resource "aws_security_group" "treeherder_heroku_sg" {
     name = "treeherder_heroku_sg"
