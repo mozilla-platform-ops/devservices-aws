@@ -1,168 +1,148 @@
-# The lambda receive role + policy allows:
-# * Writing to CloudWatch
-# * Writing to the firehose
-# * Writing to SNS
+data "aws_iam_policy_document" "lambda_assume_role" {
+    statement = {
+        effect = "Allow"
+        actions = [
+            "sts:AssumeRole",
+        ]
+        principals {
+            type = "Service"
+            identifiers = [
+                "lambda.amazonaws.com",
+            ]
+        }
+    }
+}
+
 resource "aws_iam_role" "lambda_github_webhooks_receive" {
     name = "lambda-github-webhooks-receive"
-    assume_role_policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "lambda.amazonaws.com"
-            },
-            "Action": "sts:AssumeRole"
-        }
-    ]
+    assume_role_policy = "${data.aws_iam_policy_document.lambda_assume_role.json}"
 }
-EOF
+
+data "aws_iam_policy_document" "lambda_github_webhooks_receive" {
+    # Allow writing CloudWatch logs.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents",
+        ]
+        resources = [
+            "${aws_cloudwatch_log_group.lambda_receive.arn}",
+        ]
+    }
+
+    # Allow writing to Kinesis Firehose.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "firehose:PutRecord",
+            "firehose:PutRecordBatch"
+        ]
+        resources = [
+            "${aws_kinesis_firehose_delivery_stream.webhooks.arn}",
+        ]
+    }
+
+    # Allow publishing to SNS topics.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "SNS:Publish",
+        ]
+        resources = [
+            "${aws_sns_topic.webhooks_all.arn}",
+            "${aws_sns_topic.webhooks_public.arn}"
+        ]
+    }
 }
 
 resource "aws_iam_role_policy" "lambda_github_webhooks_receive_policy" {
     name = "lambda-github-webhooks-receive"
     role = "${aws_iam_role.lambda_github_webhooks_receive.id}"
-    policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": [
-                "${aws_cloudwatch_log_group.lambda_receive.arn}"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "firehose:PutRecord",
-                "firehose:PutRecordBatch"
-            ],
-            "Resource": [
-                "${aws_kinesis_firehose_delivery_stream.webhooks.arn}"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "SNS:Publish"
-            ],
-            "Resource": [
-                "${aws_sns_topic.webhooks_all.arn}",
-                "${aws_sns_topic.webhooks_public.arn}"
-            ]
-        }
-    ]
-}
-EOF
+    policy = "${data.aws_iam_policy_document.lambda_github_webhooks_receive.json}"
 }
 
-# The firehose policy allows:
-# * Writing to CloudWatch
-# * Writing to S3
+data "aws_iam_policy_document" "firehose_assume_role" {
+    statement = {
+        effect = "Allow"
+        actions = [
+            "sts:AssumeRole",
+        ]
+        principals {
+            type = "Service"
+            identifiers = [
+                "firehose.amazonaws.com",
+            ]
+        }
+    }
+}
 
 resource "aws_iam_role" "kinesis_firehose_github_webhooks" {
     name = "kinesis-firehose-github-webhooks"
-    assume_role_policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "",
-            "Effect": "Allow",
-            "Principal": {
-            "Service": "firehose.amazonaws.com"
-        },
-        "Action": "sts:AssumeRole"
-    }
-  ]
+    assume_role_policy = "${data.aws_iam_policy_document.firehose_assume_role.json}"
 }
-EOF
+
+data "aws_iam_policy_document" "firehose_github_webhooks" {
+    # Allow writing CloudWatch logs.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents",
+        ]
+        resources = [
+            "${aws_cloudwatch_log_group.kinesisfirehose_github_webhooks.arn}",
+        ]
+    }
+
+    # Allow writing to S3.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "s3:AbortMultipartUpload",
+            "s3:GetBucketLocation",
+            "s3:GetObject",
+            "s3:ListBucket",
+            "s3:ListBucketMultipartUploads",
+            "s3:PutObject"
+        ]
+        resources = [
+            "${aws_s3_bucket.webhooks_bucket.arn}",
+            "${aws_s3_bucket.webhooks_bucket.arn}/*"
+        ]
+    }
 }
 
 resource "aws_iam_role_policy" "firehose_github_webhooks" {
     name = "firehose-github-webhooks-kinesis-firehose"
     role = "${aws_iam_role.kinesis_firehose_github_webhooks.id}"
-    policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "",
-            "Effect": "Allow",
-            "Action": [
-                "s3:AbortMultipartUpload",
-                "s3:GetBucketLocation",
-                "s3:GetObject",
-                "s3:ListBucket",
-                "s3:ListBucketMultipartUploads",
-                "s3:PutObject"
-            ],
-            "Resource": [
-                "${aws_s3_bucket.webhooks_bucket.arn}"
-            ]
-        },
-        {
-            "Sid": "",
-            "Effect": "Allow",
-            "Action": [
-                "logs:PutLogEvents"
-            ],
-            "Resource": [
-                "${aws_cloudwatch_log_group.kinesisfirehose_github_webhooks.arn}"
-            ]
-        }
-    ]
+    policy = "${data.aws_iam_policy_document.firehose_github_webhooks.json}"
 }
-EOF
-}
-
-# The Pulse role allows:
-# * Writing to CloudWatch
 
 resource "aws_iam_role" "lambda_github_webhooks_pulse" {
     name = "lambda-github-webhooks-pulse"
-    assume_role_policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "lambda.amazonaws.com"
-            },
-            "Action": "sts:AssumeRole"
-        }
-    ]
+    assume_role_policy = "${data.aws_iam_policy_document.lambda_assume_role.json}"
 }
-EOF
+
+data "aws_iam_policy_document" "lambda_github_webhooks_pulse" {
+    # Allow writing to CloudWatch.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents",
+        ]
+        resources = [
+            "${aws_cloudwatch_log_group.lambda_pulse.arn}",
+        ]
+    }
 }
 
 resource "aws_iam_role_policy" "lambda_github_webhooks_pulse" {
     name = "lambda-github-webhooks-pulse"
     role = "${aws_iam_role.lambda_github_webhooks_pulse.id}"
-    policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": [
-                "${aws_cloudwatch_log_group.lambda_pulse.arn}"
-            ]
-        }
-    ]
-}
-EOF
+    policy = "${data.aws_iam_policy_document.lambda_github_webhooks_pulse.json}"
 }
