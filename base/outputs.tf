@@ -15,3 +15,13 @@ output "allow_usw2_jumphost_sg_id" {
 output "mozops_route53_zone_id" {
     value = "${aws_route53_zone.mozops.zone_id}"
 }
+
+output "cloudwatchaccess_arn" {
+    value = "${aws_iam_policy.cloudwatchaccess.arn}"
+}
+output "manage_creds_arn" {
+    value = "${aws_iam_policy.manage_own_credentials.arn}"
+}
+output "access_support_arn" {
+    value = "${aws_iam_policy.access_support.arn}"
+}
