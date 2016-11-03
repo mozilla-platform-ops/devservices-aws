@@ -6,7 +6,7 @@ data "aws_caller_identity" "current" { }
 data "aws_availability_zones" "available" {}
 
 # Configure remote state
-# outputs can be accessed via ${terraform_remote_state.base.output_name}
+# outputs can be accessed via ${data.terraform_remote_state.base.output_name}
 data "terraform_remote_state" "base" {
     backend = "s3"
     config {
