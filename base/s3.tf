@@ -22,22 +22,6 @@ resource "aws_s3_bucket_notification" "base_bucket-notify" {
     }
 }
 
-resource "aws_s3_bucket" "carton_bucket" {
-    bucket = "moz-devservices-bmocartons"
-    policy = "${file("files/s3-bugzillacarton-public.json")}"
-    versioning {
-        enabled = true
-    }
-    logging {
-        target_bucket = "${var.logging_bucket}"
-        target_prefix = "s3/bmocartons/"
-    }
-    tags {
-        Name = "Bugzilla Perl Cartons"
-        BugId = "1254582"
-    }
-}
-
 resource "aws_s3_bucket" "key_bucket" {
     bucket = "moz-devservices-keys"
     acl = "private"

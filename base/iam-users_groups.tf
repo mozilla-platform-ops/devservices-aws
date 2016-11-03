@@ -38,29 +38,6 @@ resource "aws_iam_user" "vcs-archive-access" {
     name = "vcs-archive-access"
 }
 
-#---[ BMO devs ]---
-resource "aws_iam_group" "bmodevs-group" {
-    name = "bmo_devs"
-}
-resource "aws_iam_group_membership" "bmodev-groupmem" {
-    name = "bmodev-group-membership"
-    group = "${aws_iam_group.bmodevs-group.name}"
-    users = [
-        "${aws_iam_user.dkl.name}",
-        "${aws_iam_user.dylan.name}",
-        "${aws_iam_user.glob.name}"
-    ]
-}
-resource "aws_iam_user" "dkl" {
-    name = "dkl"
-}
-resource "aws_iam_user" "dylan" {
-    name = "dylan"
-}
-resource "aws_iam_user" "glob" {
-    name = "glob"
-}
-
 #---[ vcssync ]---
 resource "aws_iam_group" "vcssync-group" {
     name = "vcs-sync"
