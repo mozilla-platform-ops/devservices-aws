@@ -4,54 +4,39 @@
 # vcs-archive-full-access
 
 # Manage own credentials; everyone
-resource "aws_iam_policy" "manage_own_credentials-policy" {
+resource "aws_iam_policy" "manage_own_credentials" {
     name = "manage_own_credentials-policy"
     description = "Allows users to manage their own credentials"
     policy = "${file("files/manage_own_credentials.json")}"
 }
-resource "aws_iam_policy_attachment" "manage_own_credentials-attach" {
-    name = "manage_own_credentials-attach"
-    groups = ["${aws_iam_group.netops-group.name}",
-              "${aws_iam_group.bmodevs-group.name}",
-              "${aws_iam_group.treeherder_rds_access-group.name}"]
-    policy_arn = "${aws_iam_policy.manage_own_credentials-policy.arn}"
+resource "aws_iam_group_policy_attachment" "bmo_manage_creds-attach" {
+    group = "${aws_iam_group.bmodevs-group.name}"
+    policy_arn = "${aws_iam_policy.manage_own_credentials.arn}"
 }
+resource "aws_iam_group_policy_attachment" "netops_manage_creds-attach" {
+    group = "${aws_iam_group.netops-group.name}"
+    policy_arn = "${aws_iam_policy.manage_own_credentials.arn}"
+}
+
 # Access the Support Center: everyone
-resource "aws_iam_policy" "access_support-policy" {
+resource "aws_iam_policy" "access_support" {
     name = "access_support-policy"
     description = "Allow users to access the Support Center"
     policy = "${file("files/access_support.json")}"
 }
-resource "aws_iam_policy_attachment" "access_support-attach" {
-    name = "access_support-attach"
-    groups = ["${aws_iam_group.netops-group.name}",
-              "${aws_iam_group.bmodevs-group.name}",
-              "${aws_iam_group.treeherder_rds_access-group.name}"]
-    policy_arn = "${aws_iam_policy.access_support-policy.arn}"
+resource "aws_iam_group_policy_attachment" "bmo_support-attach" {
+    group = "${aws_iam_group.bmodevs-group.name}"
+    policy_arn = "${aws_iam_policy.access_support.arn}"
+}
+resource "aws_iam_group_policy_attachment" "netops_support-attach" {
+    group = "${aws_iam_group.netops-group.name}"
+    policy_arn = "${aws_iam_policy.access_support.arn}"
 }
 
-# Treeherder RDS access; Treeherder Devs
-resource "aws_iam_policy" "treeherder_rds-policy" {
-    name = "treeherder_rds-policy"
-    description = "Allows users access the Treeherder RDS resources"
-    policy = "${file("files/treeherder_rds.json")}"
-}
-resource "aws_iam_policy_attachment" "treeherder_rds-attach" {
-    name = "treeherder_rds-attach"
-    groups = ["${aws_iam_group.treeherder_rds_access-group.name}"]
-    policy_arn = "${aws_iam_policy.treeherder_rds-policy.arn}"
-}
-
-# Access CloudWatch resources; Treeherder Devs
-resource "aws_iam_policy" "cloudwatchaccess-policy" {
-    name = "cloudwatchaccess-policy"
+resource "aws_iam_policy" "cloudwatchaccess" {
+    name = "cloudwatchaccess"
     description = "Allows users to access CloudWatch resources"
     policy = "${file("files/cloudwatchaccess.json")}"
-}
-resource "aws_iam_policy_attachment" "cloudwatchaccess-attach" {
-    name = "cloudwatchaccess-attach"
-    groups = ["${aws_iam_group.treeherder_rds_access-group.name}"]
-    policy_arn = "${aws_iam_policy.cloudwatchaccess-policy.arn}"
 }
 
 # Additional read-only access for netops
