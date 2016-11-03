@@ -2,18 +2,77 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "Stmt1436277160000",
+            "Sid": "DenyRDSFootGuns",
+            "Effect": "Deny",
+            "Action": [
+                "rds:AddTagsToResource",
+                "rds:RemoveTagsFromResource",
+                "rds:DeleteDBInstance",
+                "rds:DeleteDBParameterGroup",
+                "rds:DeleteDBSnapshot",
+                "rds:DeleteDBSubnetGroup",
+                "rds:ModifyDBSubnetGroup"
+            ],
+            "Resource": [
+                "arn:aws:rds:us-east-1:699292812394:db:treeherder-prod",
+                "arn:aws:rds:us-east-1:699292812394:db:treeherder-stage",
+                "arn:aws:rds:us-east-1:699292812394:db:treeherder-heroku",
+                "arn:aws:rds:us-east-1:699292812394:pg:treeherder",
+                "arn:aws:rds:us-east-1:699292812394:pg:treeherder-prod",
+                "arn:aws:rds:us-east-1:699292812394:ri:treeherder-prod",
+                "arn:aws:rds:us-east-1:699292812394:ri:treeherder-stage",
+                "arn:aws:rds:us-east-1:699292812394:snapshot:rds:treeherder-prod-*",
+                "arn:aws:rds:us-east-1:699292812394:snapshot:rds:treeherder-stage-*",
+                "arn:aws:rds:us-east-1:699292812394:subgrp:treeherder-dbgrp"
+            ]
+        },
+        {
+            "Sid": "AllowProdDBManage",
             "Effect": "Allow",
             "Action": [
                 "rds:ApplyPendingMaintenanceAction",
                 "rds:CopyDBParameterGroup",
                 "rds:CopyDBSnapshot",
                 "rds:CopyOptionGroup",
+                "rds:CreateEventSubscription",
+                "rds:DeleteEventSubscription",
+                "rds:Describe*",
+                "rds:DownloadCompleteDBLogFile",
+                "rds:DownloadDBLogFilePortion",
+                "rds:ListTagsForResource",
+                "rds:ModifyEventSubscription",
+                "rds:RebootDBInstance"
+            ],
+            "Resource": [
+                "arn:aws:rds:us-east-1:699292812394:db:treeherder-prod",
+                "arn:aws:rds:us-east-1:699292812394:db:treeherder-stage",
+                "arn:aws:rds:us-east-1:699292812394:pg:treeherder",
+                "arn:aws:rds:us-east-1:699292812394:ri:treeherder-prod",
+                "arn:aws:rds:us-east-1:699292812394:ri:treeherder-stage",
+                "arn:aws:rds:us-east-1:699292812394:snapshot:rds:treeherder-prod-*",
+                "arn:aws:rds:us-east-1:699292812394:snapshot:rds:treeherder-stage-*",
+                "arn:aws:rds:us-east-1:699292812394:subgrp:treeherder-dbgrp"
+            ]
+        },
+        {
+            "Sid": "AllowDevDBManage",
+            "Effect": "Allow",
+            "Action": [
+                "rds:ApplyPendingMaintenanceAction",
+                "rds:AddTagsToResource",
+                "rds:CopyDBParameterGroup",
+                "rds:CopyDBSnapshot",
+                "rds:CopyOptionGroup",
+                "rds:CreateDBInstance",
                 "rds:CreateDBParameterGroup",
                 "rds:CreateDBSnapshot",
                 "rds:CreateEventSubscription",
                 "rds:CreateOptionGroup",
                 "rds:DeleteEventSubscription",
+                "rds:DeleteDBInstance",
+                "rds:DeleteDBParameterGroup",
+                "rds:DeleteDBSnapshot",
+                "rds:DeleteOptionGroup",
                 "rds:Describe*",
                 "rds:DownloadCompleteDBLogFile",
                 "rds:DownloadDBLogFilePortion",
@@ -28,8 +87,13 @@
                 "rds:ResetDBParameterGroup"
             ],
             "Resource": [
-                "arn:aws:rds:us-east-1:699292812394:db:treeherder-*",
-                "arn:aws:rds:us-east-1:699292812394:es:treeherder-*"
+                "arn:aws:rds:us-east-1:699292812394:db:treeherder-dev*",
+                "arn:aws:rds:us-east-1:699292812394:og:treeherder-dev*",
+                "arn:aws:rds:us-east-1:699292812394:pg:treeherder-dev*",
+                "arn:aws:rds:us-east-1:699292812394:snapshot:treeherder-*",
+                "arn:aws:rds:us-east-1:699292812394:es:treeherder-*",
+                "arn:aws:rds:us-east-1:699292812394:ri:treeherder-dev*",
+                "arn:aws:rds:us-east-1:699292812394:subgrp:treeherder-dbgrp"
             ]
         },
         {

@@ -1,3 +1,4 @@
+# coordinate name change with ../base/files/treeherder_rds.json
 resource "aws_db_subnet_group" "treeherder-dbgrp" {
     name = "treeherder-dbgrp"
     description = "Treeherder DB subnet group"
@@ -15,6 +16,7 @@ resource "aws_db_subnet_group" "treeherder-dbgrp" {
     }
 }
 
+# coordinate name change with ../base/files/treeherder_rds.json
 resource "aws_db_parameter_group" "treeherder-pg" {
     name = "treeherder"
     family = "mysql5.6"
