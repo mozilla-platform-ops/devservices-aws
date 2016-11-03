@@ -61,25 +61,6 @@ resource "aws_iam_user" "glob" {
     name = "glob"
 }
 
-#---[ Netops users ]---
-resource "aws_iam_group" "netops-group" {
-    name = "netops"
-}
-resource "aws_iam_group_membership" "netops-groupmem" {
-    name = "netops-group-membership"
-    group = "${aws_iam_group.netops-group.name}"
-    users = [
-        "${aws_iam_user.dcurado.name}",
-        "${aws_iam_user.xionix.name}"
-    ]
-}
-resource "aws_iam_user" "dcurado" {
-    name = "dcurado"
-}
-resource "aws_iam_user" "xionix" {
-    name = "xionix"
-}
-
 #---[ vcssync ]---
 resource "aws_iam_group" "vcssync-group" {
     name = "vcs-sync"

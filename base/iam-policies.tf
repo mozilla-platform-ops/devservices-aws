@@ -13,10 +13,6 @@ resource "aws_iam_group_policy_attachment" "bmo_manage_creds-attach" {
     group = "${aws_iam_group.bmodevs-group.name}"
     policy_arn = "${aws_iam_policy.manage_own_credentials.arn}"
 }
-resource "aws_iam_group_policy_attachment" "netops_manage_creds-attach" {
-    group = "${aws_iam_group.netops-group.name}"
-    policy_arn = "${aws_iam_policy.manage_own_credentials.arn}"
-}
 
 # Access the Support Center: everyone
 resource "aws_iam_policy" "access_support" {
@@ -28,34 +24,11 @@ resource "aws_iam_group_policy_attachment" "bmo_support-attach" {
     group = "${aws_iam_group.bmodevs-group.name}"
     policy_arn = "${aws_iam_policy.access_support.arn}"
 }
-resource "aws_iam_group_policy_attachment" "netops_support-attach" {
-    group = "${aws_iam_group.netops-group.name}"
-    policy_arn = "${aws_iam_policy.access_support.arn}"
-}
 
 resource "aws_iam_policy" "cloudwatchaccess" {
     name = "cloudwatchaccess"
     description = "Allows users to access CloudWatch resources"
     policy = "${file("files/cloudwatchaccess.json")}"
-}
-
-# Additional read-only access for netops
-resource "aws_iam_policy" "netops_additional-policy" {
-    name = "netops_additional-policy"
-    description = "Additional read-ony access for netops"
-    policy = "${file("files/netops_additional.json")}"
-}
-resource "aws_iam_policy_attachment" "netops_additional-attach" {
-    name = "netops_additional-attach"
-    groups = ["${aws_iam_group.netops-group.name}"]
-    policy_arn = "${aws_iam_policy.netops_additional-policy.arn}"
-}
-
-# AmazonVPCFullAccess; NetOps
-resource "aws_iam_policy_attachment" "vpcfullaccess-attach" {
-    name = "vpcfullaccess-attach"
-    groups = ["${aws_iam_group.netops-group.name}"]
-    policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
 }
 
 # Allow full access to BMO Carton bucket; BMO Devs
