@@ -34,9 +34,6 @@ resource "aws_iam_user" "hwine" {
 }
 
 #---[ misc accounts ]---
-resource "aws_iam_user" "hgbundler" {
-    name = "hgbundler"
-}
 resource "aws_iam_user" "vcs-archive-access" {
     name = "vcs-archive-access"
 }
