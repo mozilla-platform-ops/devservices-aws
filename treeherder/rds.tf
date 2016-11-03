@@ -1,4 +1,4 @@
-# coordinate name change with ../base/files/treeherder_rds.json
+# coordinate name change with aws_iam_policy_document.treeherder_rds in iam.tf
 resource "aws_db_subnet_group" "treeherder-dbgrp" {
     name = "treeherder-dbgrp"
     description = "Treeherder DB subnet group"
@@ -16,7 +16,7 @@ resource "aws_db_subnet_group" "treeherder-dbgrp" {
     }
 }
 
-# coordinate name change with ../base/files/treeherder_rds.json
+# coordinate name change with aws_iam_policy_document.treeherder_rds in iam.tf
 resource "aws_db_parameter_group" "treeherder-pg" {
     name = "treeherder"
     family = "mysql5.6"

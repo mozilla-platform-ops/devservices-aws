@@ -1,4 +1,4 @@
 profile="devservices"
-env="treeherder"
+env="bmo"
 region="us-east-1"
 key_name="fubar"
