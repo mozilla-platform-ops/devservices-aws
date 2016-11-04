@@ -70,3 +70,31 @@ data "aws_iam_policy_document" "bmo_dev_s3_access" {
         ]
     }
 }
+
+# role account for bugzilla dev attachments (#1310041)
+resource "aws_iam_user" "bugzilla_dev" {
+    name = "bugzilla_dev"
+}
+
+resource "aws_iam_user_poicy" "bugzilla_dev_s3" {
+    name = "bugzilla_dev_s3"
+    user = "${aws_iam_user.bugzilla_dev.name}"
+    policy = "${data.aws_iam_policy_document.bugzilla_dev_s3_attachments.json}"
+}
+
+data "aws_iam_policy_document" "bugzilla_dev_s3_attachments" {
+    statement {
+        sid = "BugzillaDevS3Attachments"
+        effect = "Allow"
+        actions = [
+            "s3:DeleteObject",
+            "s3:GetObject",
+            "s3:ListBucket",
+            "s3:PutObject"
+        ]
+        resources = [
+            "arn:aws:s3:::${var.dev_attachment_bucket}",
+            "arn:aws:s3:::${var.dev_attachment_bucket}/*"
+        ]
+    }
+}
