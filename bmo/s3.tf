@@ -35,7 +35,10 @@ resource "aws_s3_bucket" "carton_bucket" {
         target_prefix = "s3/bmocartons/"
     }
     tags {
-        Name = "Bugzilla Perl Cartons"
+        Name = "bugzilla-ops-s3"
+        App = "bugzilla"
+        Env = "ops"
+        Owner = "relops"
         BugId = "1254582"
     }
 }

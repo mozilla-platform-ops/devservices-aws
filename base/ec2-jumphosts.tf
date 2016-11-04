@@ -29,12 +29,27 @@ resource "aws_autoscaling_group" "jumphost_use1_asg" {
     }
     tag {
         key = "Name"
-        value = "jumphost"
+        value = "base-bastion-jumphost"
+        propagate_at_launch = true
+    }
+    tag {
+        key = "App"
+        value = "base"
+        propagate_at_launch = true
+    }
+    tag {
+        key = "Env"
+        value = "bastion"
         propagate_at_launch = true
     }
     tag {
         key = "Type"
-        value = "autoscale instance"
+        value = "jumphost"
+        propagate_at_launch = true
+    }
+    tag {
+        key = "Owner"
+        value = "relops"
         propagate_at_launch = true
     }
 }
@@ -68,12 +83,27 @@ resource "aws_autoscaling_group" "jumphost_usw2_asg" {
     }
     tag {
         key = "Name"
-        value = "jumphost"
+        value = "base-bastion-jumphost"
+        propagate_at_launch = true
+    }
+    tag {
+        key = "App"
+        value = "base"
+        propagate_at_launch = true
+    }
+    tag {
+        key = "Env"
+        value = "bastion"
         propagate_at_launch = true
     }
     tag {
         key = "Type"
-        value = "autoscale instance"
+        value = "jumphost"
+        propagate_at_launch = true
+    }
+    tag {
+        key = "Owner"
+        value = "relops"
         propagate_at_launch = true
     }
 }
