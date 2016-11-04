@@ -1,6 +1,11 @@
+variable "carton_bucket" {
+    default = "moz-devservices-bmocartons"
+    description = "Bucket for storing perl carton tarballs"
+}
+
 resource "aws_s3_bucket" "carton_bucket" {
-    bucket = "moz-devservices-bmocartons"
-    policy = "${file("files/s3-bugzillacarton-public.json")}"
+    bucket = "${var.carton_bucket}"
+    policy = "${data.aws_iam_policy_document.carton_public_s3_access.json}"
     versioning {
         enabled = true
     }
@@ -22,7 +27,7 @@ data "aws_iam_policy_document" "carton_public_s3_access" {
             "s3:ListBucket"
         ]
         resources = [
-            "${aws_s3_bucket.carton_bucket.arn}"
+            "arn:aws:s3:::${var.carton_bucket}"
         ]
         # https://github.com/hashicorp/terraform/issues/9335
         principals {
@@ -38,7 +43,7 @@ data "aws_iam_policy_document" "carton_public_s3_access" {
             "s3:GetObjectVersion"
         ]
         resources = [
-            "${aws_s3_bucket.carton_bucket.arn}/*"
+            "arn:aws:s3:::${var.carton_bucket}/*"
         ]
         # https://github.com/hashicorp/terraform/issues/9335
         principals {
