@@ -76,7 +76,7 @@ resource "aws_iam_user" "bugzilla_dev" {
     name = "bugzilla_dev"
 }
 
-resource "aws_iam_user_poicy" "bugzilla_dev_s3" {
+resource "aws_iam_user_policy" "bugzilla_dev_s3" {
     name = "bugzilla_dev_s3"
     user = "${aws_iam_user.bugzilla_dev.name}"
     policy = "${data.aws_iam_policy_document.bugzilla_dev_s3_attachments.json}"
