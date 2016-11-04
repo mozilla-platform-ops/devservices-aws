@@ -9,8 +9,11 @@ resource "aws_s3_bucket" "base-bucket" {
         target_prefix = "s3/${var.base_bucket}/"
     }
     tags {
-        Name = "terraform state bucket"
-        Env = "shared"
+        Name = "base-ops-s3"
+        App = "base"
+        Env = "ops"
+        Type = "s3"
+        Owner = "relops"
     }
 }
 resource "aws_s3_bucket_notification" "base_bucket-notify" {
@@ -31,7 +34,11 @@ resource "aws_s3_bucket" "key_bucket" {
         target_prefix = "s3/ssh_pub_keys/"
     }
     tags {
-        Name = "SSH public keys"
+        Name = "base-ops-s3"
+        App = "base"
+        Env = "ops"
+        Type = "s3"
+        Owner = "relops"
     }
 }
 

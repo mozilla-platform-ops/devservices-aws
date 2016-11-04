@@ -4,6 +4,13 @@
 resource "aws_vpc" "usw2_default-vpc" {
     provider = "aws.us-west-2"
     cidr_block = "${var.vpc_map["usw2_default"]}"
+    tags {
+        Name = "base-default-vpc"
+        App = "base"
+        Env = "default"
+        Type = "vpc"
+        Owner = "relops"
+    }
 }
 
 resource "aws_subnet" "jumphost_usw2_subnet" {
@@ -13,7 +20,11 @@ resource "aws_subnet" "jumphost_usw2_subnet" {
     cidr_block = "172.31.254.0/24"
     map_public_ip_on_launch = true
     tags {
-        Name = "jumphost-subnet"
+        Name = "base-bastion-subnet"
+        App = "base"
+        Env = "bastion"
+        Type = "subnet"
+        Owner = "relops"
     }
 }
 
@@ -37,7 +48,11 @@ resource "aws_security_group" "jumphost_usw2_sg" {
         create_before_destroy = true
     }
     tags {
-        Name = "jumphost-external-sg"
+        Name = "base-bastion-external_sg"
+        App = "base"
+        Env = "bastion"
+        Type = "external_sg"
+        Owner = "relops"
     }
 }
 
@@ -58,6 +73,10 @@ resource "aws_security_group" "jumphost_internal_usw2_sg" {
         security_groups = ["${aws_security_group.jumphost_usw2_sg.id}"]
     }
     tags {
-        Name = "jumphost-internal-sg"
+        Name = "base-bastion-internal_sg"
+        App = "base"
+        Env = "bastion"
+        Type = "internal_sg"
+        Owner = "relops"
     }
 }
