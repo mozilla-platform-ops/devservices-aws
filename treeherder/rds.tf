@@ -83,28 +83,28 @@ resource "aws_db_instance" "treeherder-heroku" {
     }
 }
 
-#resource "aws_db_instance" "treeherder-dev-rds" {
-#    identifier = "treeherder-dev"
-#    replicate_source_db = "treeherder-heroku"
-#    storage_type = "gp2"
-#    instance_class = "db.m4.xlarge"
-#    maintenance_window = "Sun:08:00-Sun:08:30"
-#    multi_az = false
-#    port = "3306"
-#    publicly_accessible = true
-#    parameter_group_name = "treeherder"
-#    auto_minor_version_upgrade = false
-#    db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
-#    vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
-#    tags {
-#        Name = "treeherder-dev-rds"
-#        App = "treeherder"
-#        Type = "rds"
-#        Env = "dev"
-#        Owner = "relops"
-#        BugID = "1309395"
-#    }
-#}
+resource "aws_db_instance" "treeherder-dev-rds" {
+    identifier = "treeherder-dev"
+    replicate_source_db = "rds:treeherder-prod-2016-11-09-07-05"
+    storage_type = "gp2"
+    instance_class = "db.m4.xlarge"
+    maintenance_window = "Sun:08:00-Sun:08:30"
+    multi_az = false
+    port = "3306"
+    publicly_accessible = true
+    parameter_group_name = "treeherder"
+    auto_minor_version_upgrade = false
+    db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
+    vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
+    tags {
+        Name = "treeherder-dev-rds"
+        App = "treeherder"
+        Type = "rds"
+        Env = "dev"
+        Owner = "relops"
+        BugID = "1309395"
+    }
+}
 
 resource "aws_db_instance" "treeherder-stage-rds" {
     identifier = "treeherder-stage"
