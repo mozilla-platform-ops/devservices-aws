@@ -85,7 +85,7 @@ resource "aws_db_instance" "treeherder-heroku" {
 
 resource "aws_db_instance" "treeherder-dev-rds" {
     identifier = "treeherder-dev"
-    snapshot_identifier = "rds:treeherder-prod-2016-11-09-07-05"
+    snapshot_identifier = "rds:treeherder-prod-2016-11-10-07-05"
     storage_type = "gp2"
     instance_class = "db.m4.xlarge"
     maintenance_window = "Sun:08:00-Sun:08:30"
