@@ -179,7 +179,6 @@ resource "aws_db_instance" "treeherder-prod-ro-rds" {
     publicly_accessible = true
     parameter_group_name = "treeherder"
     auto_minor_version_upgrade = false
-    db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
     monitoring_interval = 60
