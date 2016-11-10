@@ -167,3 +167,28 @@ resource "aws_db_instance" "treeherder-prod-rds" {
         BugID = "1276307"
     }
 }
+
+resource "aws_db_instance" "treeherder-prod-ro-rds" {
+    identifier = "treeherder-prod-ro"
+    replicate_source_db = "${aws_db_instance.treeherder-prod-rds.id}"
+    storage_type = "gp2"
+    instance_class = "db.m4.xlarge"
+    maintenance_window = "Sun:08:00-Sun:08:30"
+    multi_az = false
+    port = "3306"
+    publicly_accessible = true
+    parameter_group_name = "treeherder"
+    auto_minor_version_upgrade = false
+    db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
+    vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
+    monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
+    monitoring_interval = 60
+    tags {
+        Name = "treeherder-prod-ro-rds"
+        App = "treeherder"
+        Type = "rds"
+        Env = "prod-ro"
+        Owner = "relops"
+        BugID = "1311468"
+    }
+}
