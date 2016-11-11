@@ -3,6 +3,11 @@ resource "aws_iam_user" "hgbundler" {
     name = "hgbundler"
 }
 
+# Used to send notifications from hg.mo to SNS.
+resource "aws_iam_user" "hgnotifier" {
+    name = "hgnotifier"
+}
+
 # The following policies govern S3 bundles bucket access.
 #
 # The following policies should be identical and only vary by region.
@@ -141,6 +146,44 @@ data "aws_iam_policy_document" "hg_bundles_euc1" {
         ]
         resources = [
             "${aws_s3_bucket.hg_bundles_euc1.arn}/*",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["*"]
+        }
+    }
+}
+
+# Allow the hgnotifier user to publish to the SNS topic.
+
+data "aws_iam_policy_document" "sns_publish_events" {
+    statement = {
+        effect = "Allow"
+        actions = [
+            "SNS:Publish",
+        ]
+        resources = [
+            "${aws_sns_topic.events.arn}",
+        ]
+    }
+}
+
+resource "aws_iam_user_policy" "hgnotifier-sns-publish" {
+    name = "sns-events-publish"
+    user = "${aws_iam_user.hgnotifier.name}"
+    policy = "${data.aws_iam_policy_document.sns_publish_events.json}"
+}
+
+# Allow anybody to subscribe to the SNS topic.
+
+data "aws_iam_policy_document" "sns_subscribe_events" {
+    statement = {
+        effect = "Allow"
+        actions = [
+            "SNS:Subscribe",
+        ]
+        resources = [
+            "${aws_sns_topic.events.arn}",
         ]
         principals {
             type = "AWS"

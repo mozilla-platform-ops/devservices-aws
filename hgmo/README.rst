@@ -9,3 +9,4 @@ It includes:
 * S3 buckets for holding bundles
 * A user for uploading to S3
 * A CloudFront distribution for serving content via a CDN
+* SNS topic receiving info about events on hg.mozilla.org
