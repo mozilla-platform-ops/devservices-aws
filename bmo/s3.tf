@@ -10,7 +10,7 @@ variable "dev_attachment_bucket" {
 
 resource "aws_s3_bucket" "dev_attachment_bucket" {
     bucket = "${var.dev_attachment_bucket}"
-    acl = "private"
+    policy = "${data.aws_iam_policy_document.dev_attachment_bucket_access.json}"
     logging {
         target_bucket = "${var.logging_bucket}"
         target_prefix = "s3/bugzilla_dev_attach/"
@@ -21,6 +21,39 @@ resource "aws_s3_bucket" "dev_attachment_bucket" {
         Env = "dev"
         Owner = "relops"
         BugId = "1310041"
+    }
+}
+
+data "aws_iam_policy_document" "dev_attachment_bucket_access" {
+    statement {
+        sid = "BugzillaDevS3AttachmentBucket"
+        effect = "Allow"
+        actions = [
+            "s3:ListBucket"
+        ]
+        resources = [
+            "arn:aws:s3:::${var.dev_attachment_bucket}"
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["${aws_iam_user.bugzilla_dev.arn}"]
+        }
+    }
+    statement {
+        sid = "BugzillaDevS3AttachmentObjects"
+        effect = "Allow"
+        actions = [
+            "s3:DeleteObject",
+            "s3:GetObject",
+            "s3:PutObject"
+        ]
+        resources = [
+            "arn:aws:s3:::${var.dev_attachment_bucket}/*"
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["${aws_iam_user.bugzilla_dev.arn}"]
+        }
     }
 }
 
