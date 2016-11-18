@@ -54,35 +54,6 @@ resource "aws_db_parameter_group" "treeherder-pg" {
     }
 }
 
-resource "aws_db_instance" "treeherder-heroku" {
-    identifier = "treeherder-heroku"
-    storage_type = "gp2"
-    allocated_storage = 500
-    engine = "mysql"
-    engine_version = "5.6.29"
-    instance_class = "db.m4.xlarge"
-    username = "th_admin"
-    backup_retention_period = 1
-    backup_window = "07:00-07:30"
-    maintenance_window = "Sun:08:00-Sun:08:30"
-    multi_az = true
-    port = "3306"
-    publicly_accessible = true
-    parameter_group_name = "treeherder"
-    option_group_name = "default:mysql-5-6"
-    auto_minor_version_upgrade = false
-    db_subnet_group_name = "default"
-    vpc_security_group_ids = ["sg-3081fd54", "sg-8b81fdef"]
-    tags {
-        Name = "treeherder-proto-rds"
-        App = "treeherder"
-        Type = "rds"
-        Env = "dev"
-        Owner = "relops"
-        BugID = "1176486"
-    }
-}
-
 resource "aws_db_instance" "treeherder-dev-rds" {
     identifier = "treeherder-dev"
     snapshot_identifier = "rds:treeherder-prod-2016-11-10-07-05"

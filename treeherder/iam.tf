@@ -64,7 +64,6 @@ data "aws_iam_policy_document" "treeherder_rds" {
         resources = [
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:db:treeherder-prod",
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:db:treeherder-stage",
-            "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:db:treeherder-heroku",
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:pg:treeherder",
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:pg:treeherder-prod",
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:ri:treeherder-prod",
