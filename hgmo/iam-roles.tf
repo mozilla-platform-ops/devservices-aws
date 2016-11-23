@@ -191,3 +191,36 @@ data "aws_iam_policy_document" "sns_subscribe_events" {
         }
     }
 }
+
+data "aws_iam_policy_document" "s3_hg_events_usw2" {
+    # Grant notifier user access to upload objects.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "s3:GetObject",
+            "s3:PutObject",
+        ]
+        resources = [
+            "${aws_s3_bucket.hg_events_usw2.arn}/*",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["${aws_iam_user.hgnotifier.arn}"]
+        }
+    }
+
+    # Grant all access to read S3 objects.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "s3:GetObject",
+        ]
+        resources = [
+            "${aws_s3_bucket.hg_events_usw2.arn}/*",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["*"]
+        }
+    }
+}

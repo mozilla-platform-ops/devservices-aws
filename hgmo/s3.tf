@@ -168,3 +168,29 @@ resource "aws_s3_bucket_policy" "hg_bundles_euc1" {
     bucket = "${aws_s3_bucket.hg_bundles_euc1.bucket}"
     policy = "${data.aws_iam_policy_document.hg_bundles_euc1.json}"
 }
+
+# Bucket to hold data about replication events.
+
+resource "aws_s3_bucket" "hg_events_usw2" {
+    provider = "aws.usw2"
+    bucket = "moz-hg-events-us-west-2"
+    acl = ""
+
+    tags {
+        App = "hgmo"
+        Env = "prod"
+        Owner = "gps@mozilla.com"
+        Bugid = "1316952"
+    }
+
+    logging = {
+        target_bucket = "moz-devservices-logging-us-west-2"
+        target_prefix = "s3/hg-events/"
+    }
+}
+
+resource "aws_s3_bucket_policy" "hg_events_usw2" {
+    provider = "aws.usw2"
+    bucket = "${aws_s3_bucket.hg_events_usw2.bucket}"
+    policy = "${data.aws_iam_policy_document.s3_hg_events_usw2.json}"
+}
