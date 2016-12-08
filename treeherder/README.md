@@ -9,7 +9,7 @@ SSL
 ---
 RDS instances supporting Heroku apps need to be publicly available currently, so all
 connections are required to use SSL. After creating a new RDS instances, configure the
-master account to require SSL, per http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP\_MySQL.html#MySQL.Concepts.SSLSupport:
+master account to require SSL, per https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP\_MySQL.html#MySQL.Concepts.SSLSupport:
 
 Download the [RDS CA bundle](https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem)
 

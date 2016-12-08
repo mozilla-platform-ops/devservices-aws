@@ -1,7 +1,7 @@
 DevServices AWS Account Configuration
 =============================================
 
-http://moz-devservices.signin.aws.amazon.com/console
+https://moz-devservices.signin.aws.amazon.com/console
 
 Requirements
 ------------
