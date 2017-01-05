@@ -24,11 +24,6 @@ if [ -f /etc/centos-release ]; then
     epel_bootstrap
     yum update -y
     yum install -y python-pip jq
-elif [ -f /etc/redhat-release ]; then
-    SSH_USER="ec2-user"
-    epel_bootstrap
-    yum update -y
-    yum install -y python-pip jq
 elif [ -f /etc/debian_version ]; then
     SSH_USER="ubuntu"
     apt-get update -y
@@ -93,4 +88,6 @@ if [ ! -f /etc/cron.d/update-ssh-keys ]; then
     echo "*/10 * * * * $SSH_USER $SCRIPT" > /etc/cron.d/update-ssh-keys
     chmod 644 /etc/cron.d/update-ssh-keys
 fi
-exit
+
+# Reboot to apply system package updates.
+reboot

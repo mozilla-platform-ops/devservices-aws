@@ -34,6 +34,7 @@ data "aws_iam_policy_document" "s3-ssh-keys-access" {
             type = "AWS"
             identifiers = [
                 "${aws_iam_role.ec2-assume-role.arn}",
+                "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vcs-sync-servo-assume-role",
             ]
         }
         resources = ["${aws_s3_bucket.key_bucket.arn}"]
@@ -49,6 +50,7 @@ data "aws_iam_policy_document" "s3-ssh-keys-access" {
             type = "AWS"
             identifiers = [
                 "${aws_iam_role.ec2-assume-role.arn}",
+                "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vcs-sync-servo-assume-role",
             ]
         }
         resources = ["${aws_s3_bucket.key_bucket.arn}/*"]
