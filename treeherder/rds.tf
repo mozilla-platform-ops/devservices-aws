@@ -80,7 +80,7 @@ resource "aws_db_instance" "treeherder-dev-rds" {
 resource "aws_db_instance" "treeherder-stage-rds" {
     identifier = "treeherder-stage"
     storage_type = "gp2"
-    allocated_storage = 500
+    allocated_storage = 750
     engine = "mysql"
     engine_version = "5.6.29"
     instance_class = "db.m4.xlarge"
