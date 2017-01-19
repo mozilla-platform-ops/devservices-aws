@@ -58,6 +58,8 @@ resource "aws_db_instance" "treeherder-dev-rds" {
     identifier = "treeherder-dev"
     snapshot_identifier = "rds:treeherder-prod-2017-01-18-07-05"
     storage_type = "gp2"
+    engine = "mysql"
+    engine_version = "5.6.34"
     instance_class = "db.m4.xlarge"
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = false
@@ -82,7 +84,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     storage_type = "gp2"
     allocated_storage = 750
     engine = "mysql"
-    engine_version = "5.6.29"
+    engine_version = "5.6.34"
     instance_class = "db.m4.xlarge"
     username = "th_admin"
     password = "XXXXXXXXXXXXXXXX"
