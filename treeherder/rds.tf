@@ -56,7 +56,7 @@ resource "aws_db_parameter_group" "treeherder-pg" {
 
 resource "aws_db_instance" "treeherder-dev-rds" {
     identifier = "treeherder-dev"
-    snapshot_identifier = "rds:treeherder-prod-2017-01-18-07-05"
+    snapshot_identifier = "rds:treeherder-prod-2017-01-24-07-06"
     storage_type = "gp2"
     engine = "mysql"
     engine_version = "5.6.34"
