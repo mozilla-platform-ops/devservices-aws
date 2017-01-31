@@ -115,7 +115,7 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     storage_type = "gp2"
     allocated_storage = 750
     engine = "mysql"
-    engine_version = "5.6.29"
+    engine_version = "5.6.34"
     instance_class = "db.m4.2xlarge"
     username = "th_admin"
     password = "XXXXXXXXXXXXXXXX"
@@ -145,6 +145,8 @@ resource "aws_db_instance" "treeherder-prod-ro-rds" {
     identifier = "treeherder-prod-ro"
     replicate_source_db = "${aws_db_instance.treeherder-prod-rds.id}"
     storage_type = "gp2"
+    engine = "mysql"
+    engine_version = "5.6.34"
     instance_class = "db.m4.xlarge"
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = false
