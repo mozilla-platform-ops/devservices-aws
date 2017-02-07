@@ -25,3 +25,11 @@ output "manage_creds_arn" {
 output "access_support_arn" {
     value = "${aws_iam_policy.access_support.arn}"
 }
+
+output "ec2_read_ssh_keys_policy_arn" {
+    value = "${aws_iam_instance_profile.ec2-read-ssh-keys.arn}"
+}
+
+output "key_bucket_id" {
+    value = "${aws_s3_bucket.key_bucket.id}"
+}
