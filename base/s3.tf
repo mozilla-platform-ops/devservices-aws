@@ -43,7 +43,7 @@ resource "aws_s3_bucket" "key_bucket" {
 }
 
 variable "ssh_key_names" {
-    default = "gszorc1,gszorc2,hwine1,klibby2"
+    default = "gszorc1,gszorc2,hwine1,klibby2,bjones"
 }
 resource "aws_s3_bucket_object" "ssh_keys" {
     bucket = "${aws_s3_bucket.key_bucket.bucket}"
