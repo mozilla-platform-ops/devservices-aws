@@ -28,7 +28,6 @@ resource "aws_s3_bucket_notification" "base_bucket-notify" {
 resource "aws_s3_bucket" "key_bucket" {
     bucket = "moz-devservices-keys"
     acl = "private"
-    policy = "${file("files/s3-keys-bucket.json")}"
     logging {
         target_bucket = "${var.logging_bucket}"
         target_prefix = "s3/ssh_pub_keys/"
@@ -40,6 +39,11 @@ resource "aws_s3_bucket" "key_bucket" {
         Type = "s3"
         Owner = "relops"
     }
+}
+
+resource "aws_s3_bucket_policy" "keys_bucket" {
+    bucket = "${aws_s3_bucket.key_bucket.bucket}"
+    policy = "${data.aws_iam_policy_document.s3-ssh-keys-access.json}"
 }
 
 variable "ssh_key_names" {
