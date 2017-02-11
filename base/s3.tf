@@ -28,7 +28,6 @@ resource "aws_s3_bucket_notification" "base_bucket-notify" {
 resource "aws_s3_bucket" "key_bucket" {
     bucket = "moz-devservices-keys"
     acl = "private"
-    policy = "${file("files/s3-keys-bucket.json")}"
     logging {
         target_bucket = "${var.logging_bucket}"
         target_prefix = "s3/ssh_pub_keys/"
@@ -42,8 +41,13 @@ resource "aws_s3_bucket" "key_bucket" {
     }
 }
 
+resource "aws_s3_bucket_policy" "keys_bucket" {
+    bucket = "${aws_s3_bucket.key_bucket.bucket}"
+    policy = "${data.aws_iam_policy_document.s3-ssh-keys-access.json}"
+}
+
 variable "ssh_key_names" {
-    default = "gszorc1,gszorc2,hwine1,klibby2,bjones"
+    default = "gszorc1,gszorc2,hwine1,klibby2,bjones,gszorc3"
 }
 resource "aws_s3_bucket_object" "ssh_keys" {
     bucket = "${aws_s3_bucket.key_bucket.bucket}"

@@ -22,3 +22,37 @@ resource "aws_iam_policy" "cloudwatchaccess" {
     description = "Allows users to access CloudWatch resources"
     policy = "${file("files/cloudwatchaccess.json")}"
 }
+
+data "aws_iam_policy_document" "s3-ssh-keys-access" {
+    statement = {
+        sid = "AllowEC2ToReadKeyBucket"
+        effect = "Allow"
+        actions = [
+            "s3:ListBucket",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = [
+                "${aws_iam_role.ec2-assume-role.arn}",
+                "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vcs-sync-servo-assume-role",
+            ]
+        }
+        resources = ["${aws_s3_bucket.key_bucket.arn}"]
+    }
+    statement = {
+        sid = "AllowEC2ToReadKeyBucketObjects"
+        effect = "Allow"
+        actions = [
+            "s3:Get*",
+            "s3:List*",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = [
+                "${aws_iam_role.ec2-assume-role.arn}",
+                "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vcs-sync-servo-assume-role",
+            ]
+        }
+        resources = ["${aws_s3_bucket.key_bucket.arn}/*"]
+    }
+}
