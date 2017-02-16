@@ -45,6 +45,10 @@ resource "aws_db_parameter_group" "treeherder-pg" {
         name = "sql_mode"
         value = "NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES"
     }
+    parameter {
+        name = "tx_isolation"
+        value = "READ-COMMITTED"
+    }
     tags {
         Name = "treeherder-prod-pg"
         App = "treeherder"
