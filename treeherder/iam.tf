@@ -157,6 +157,7 @@ data "aws_iam_policy_document" "treeherder_rds" {
             "ec2:DescribeAccountAttributes",
             "ec2:DescribeSecurityGroups",
             "ec2:DescribeSubnets",
+            "health:Describe*",
             "sns:*"
         ]
         resources = ["*"]
