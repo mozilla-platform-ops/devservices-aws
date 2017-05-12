@@ -19,7 +19,7 @@ resource "aws_iam_role" "servo-assume-role" {
     assume_role_policy = "${data.aws_iam_policy_document.ec2_assume_role.json}"
 }
 
-data "aws_iam_policy_document" "s3_servo_state_access" {
+data "aws_iam_policy_document" "servo_ec2_instance_policy" {
     # Read access to SSH keys in S3.
     statement = {
         effect = "Allow"
@@ -43,10 +43,24 @@ data "aws_iam_policy_document" "s3_servo_state_access" {
             "${aws_s3_bucket.servo_state.arn}/*",
         ]
     }
+
+    # Write CloudWatch log events.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "logs:CreateLogStream",
+            "logs:DescribeLogStreams",
+            "logs:PutLogEvents",
+        ]
+        resources = [
+            "${aws_cloudwatch_log_group.vcssync.arn}",
+            "${aws_cloudwatch_log_group.vcssync.arn}:log-stream:${aws_instance.servo_vcs_sync.id}",
+        ]
+    }
 }
 
 resource "aws_iam_role_policy" "vcs-sync-servo" {
     name = "vcs-sync-servo"
     role = "${aws_iam_role.servo-assume-role.id}"
-    policy = "${data.aws_iam_policy_document.s3_servo_state_access.json}"
+    policy = "${data.aws_iam_policy_document.servo_ec2_instance_policy.json}"
 }
