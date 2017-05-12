@@ -10,6 +10,16 @@ resource "aws_lambda_function" "lambda_receive" {
     timeout = 5
 }
 
+variable "pulse_user" {
+    type = "string"
+    description = "Pulse username"
+}
+
+variable "pulse_password" {
+    type = "string"
+    description = "Pulse password"
+}
+
 resource "aws_lambda_function" "lambda_pulse" {
     s3_bucket = "${aws_s3_bucket.webhooks_bucket.bucket}"
     s3_key = "github_lambda.zip"
@@ -20,6 +30,13 @@ resource "aws_lambda_function" "lambda_pulse" {
     runtime = "python2.7"
     memory_size = 128
     timeout = 20
+    environment {
+        variables {
+            PULSE_EXCHANGE = "exchange/github-webhooks/v1"
+            PULSE_USER = "${var.pulse_user}"
+            PULSE_PASSWORD = "${var.pulse_password}"
+        }
+    }
 }
 
 resource "aws_lambda_permission" "allow_api_gateway" {

@@ -25,3 +25,33 @@ The Lambda functions are defined in the version-control-tools
 repository. That repository has its own code for uploading a new
 version of the execution environment and triggering a refresh of the
 Lambda environment.
+
+Configuring Secret Variables
+============================
+
+The ``github-webhooks-pulse`` Lambda function has user credentials for Pulse
+defined in environment variables. These credentials can't be checked into
+this repository.
+
+When running ``terraform``, you may be prompted for these credentials.
+
+To avoid being prompted, you can define these variables in an offline
+file. The content of that file would look something like::
+
+    pulse_user = "<username>"
+    pulse_password = "<password>"
+
+.. hint::
+
+   If you view the Lambda function in the AWS web console, the username and
+   password will be printed in plain text in the ``Environment variables``
+   section of the ``Code`` tab.
+
+Then, pass ``-var-file`` to ``terraform`` to tell it to load that variables
+file. e.g.
+
+   $ terraform plan -var-file ~/.tf_githubwebhooks.tfvars
+
+If the credentials are defined properly and you haven't made any
+Terraform changes, that above command should not prompt you for credentials
+and should say there are no changes to be made.
