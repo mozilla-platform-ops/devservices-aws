@@ -52,3 +52,11 @@ resource "aws_route53_record" "build_metrics_ingest" {
     # AWS account.
     records = ["54.149.253.188"]
 }
+
+resource "aws_route53_record" "jumphost_use1_devservices_mozops_net" {
+    zone_id = "${aws_route53_zone.devservices.zone_id}"
+    name = "jumphost.use1.devservices.mozops.net"
+    type = "A"
+    ttl = "60"
+    records = ["${aws_eip.jumphost_use1_eip.public_ip}"]
+}
