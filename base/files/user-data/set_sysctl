@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Caveat: any variable inside curly braces will be interpolated by terraform!
+#
+# Create and run script to set global sysctl variables
+
+mkdir -p /root/bin
+
+# Create sysctl script
+SYSCTL_SCRIPT="/root/bin/set_sysctl.sh"
+
+# ---[ start of script creation ]---
+cat <<EOF > $SYSCTL_SCRIPT
+#!/usr/bin/env bash
+
+# See Bug 1294125
+sysctl -w net.ipv4.tcp_challenge_ack_limit=999999999
+echo "net.ipv4.tcp_challenge_ack_limit = 999999999" > /etc/sysctl.d/tcp_challenge_ack
+
+EOF
+# ---[ end of script creation ]---
+
+## Set perms
+chmod 755 $SYSCTL_SCRIPT
+
+## Run script
+$SYSCTL_SCRIPT

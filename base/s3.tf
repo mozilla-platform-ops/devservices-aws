@@ -39,6 +39,40 @@ resource "aws_s3_bucket_notification" "base_bucket-notify" {
     }
 }
 
+# Manage SSH public keys
+resource "aws_s3_bucket_object" "ssh_pub_keys" {
+    bucket = "${var.base_bucket}"
+    count = "${length(split(",", var.ssh_key_names))}"
+    key = "pubkeys/${element(split(",", var.ssh_key_names), count.index)}"
+    content = "${file("files/public_keys/${element(split(",", var.ssh_key_names), count.index)}.pub")}"
+    depends_on = ["aws_s3_bucket.base-bucket"]
+}
+
+# Manage user-data scripts (see below for ssh-pubkeys.tmpl)
+resource "aws_s3_bucket_object" "user-data" {
+    bucket = "${var.base_bucket}"
+    count = "${length(split(",", var.user_data_scripts))}"
+    key = "user-data/${element(split(",", var.user_data_scripts), count.index)}"
+    content = "${file("files/user-data/${element(split(",", var.user_data_scripts), count.index)}")}"
+    depends_on = ["aws_s3_bucket.base-bucket"]
+}
+
+# user-data template scripts need extra effort
+data "template_file" "s3_userdata_pubkeys-template" {
+    template = "${file("files/user-data/ssh-pubkeys.tmpl")}"
+    vars {
+        base_bucket = "${var.base_bucket}"
+        pubkey_bucket_prefix = "${var.pubkey_bucket_prefix}"
+    }
+}
+resource "aws_s3_bucket_object" "pubkeys-user-data" {
+    bucket = "${var.base_bucket}"
+    key = "user-data/ssh-pubkeys"
+    content = "${data.template_file.s3_userdata_pubkeys-template.rendered}"
+    depends_on = ["aws_s3_bucket.base-bucket", "data.template_file.s3_userdata_pubkeys-template"]
+}
+
+# To be deprecated
 resource "aws_s3_bucket" "key_bucket" {
     bucket = "moz-devservices-keys"
     acl = "private"

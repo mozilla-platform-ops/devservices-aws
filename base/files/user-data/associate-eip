@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Caveat: any variable inside curly braces will be interpolated by terraform!
+#
+# Create and run script to associate Elastic IP
+
+## Install aws-ec2-assign-elastic-ip
+pip install --upgrade aws-ec2-assign-elastic-ip
+
+mkdir -p /root/bin
+
+# Create EIP associate script
+EIP_SCRIPT="/root/bin/associate_eip.sh"
+
+# ---[ start of script creation ]---
+cat <<EOF > $EIP_SCRIPT
+#!/usr/bin/env bash
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}')
+VALID_IPS=\$(aws --output json --region \$REGION ec2 describe-tags --filters "Name=resource-id,Values=\$INSTANCE_ID" "Name=key,Values=EIP" | jq -r '.Tags[].Value')
+
+aws-ec2-assign-elastic-ip --region \$REGION --valid-ips \$VALID_IPS
+
+EOF
+# ---[ end of script creation ]---
+
+## Set perms
+chmod 755 $EIP_SCRIPT
+
+## Run script
+$EIP_SCRIPT

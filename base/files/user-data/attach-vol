@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Caveat: any variable inside curly braces will be interpolated by terraform!
+#
+# Create and run script to attach and mount an EBS volume
+
+mkdir -p /root/bin
+
+# Create script
+SCRIPT="/root/bin/attach_vol.sh"
+
+# ---[ start of script creation ]---
+cat <<EOF > $SCRIPT
+#!/usr/bin/env bash
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+export AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}')
+MOUNT=\$(aws --output json ec2 describe-tags --filters "Name=resource-id,Values=\$INSTANCE_ID" "Name=key,Values=MountPoint" | jq -r '.Tags[].Value')
+
+# this assumes root device is sda or xvda
+DEV=\$(lsblk -drn -o NAME | grep -v 'da$')
+
+FILE=\$(file -s /dev/\$DEV | awk '{print \$2}')
+if [ "\$FILE" == "data" ]; then
+    mkfs -t ext4 /dev/\$DEV
+fi
+
+mkdir -p \$MOUNT
+chmod 755 \$MOUNT
+
+echo "/dev/\$DEV \$MOUNT ext4 defaults 0 2" >> /etc/fstab
+
+mount \$MOUNT
+
+# requires IAM role permissions
+#aws ec2 attach-volume --volume-id \$VOLUME --instance-id \$INSTANCE_ID --device /dev/xvdg
+#echo "/dev/xvdg /mount_pt ext4 defaults,nofail 0 2" >> /etc/fstab
+#mount -av
+
+EOF
+# ---[ end of script creation ]---
+
+## Set perms
+chmod 755 $SCRIPT
+
+## Run script
+$SCRIPT
