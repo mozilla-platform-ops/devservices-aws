@@ -1,6 +1,19 @@
+# Render policy to allow EC2 assumed role to read base bucket
+data "template_file" "base_bucket-template" {
+    template = "${file("files/s3_base_bucket.json.tmpl")}"
+    vars {
+        account_id = "${var.account_id}"
+        key_bucket = "${var.base_bucket}"
+        ec2_assume_role = "${aws_iam_role.ec2-assume-role.name}"
+        ec2_manage_eip_role = "${aws_iam_role.ec2_manage_eip-role.name}"
+    }
+}
+
+# Create base bucket for SSH pub keys, user-data scripts, etc
 resource "aws_s3_bucket" "base-bucket" {
     bucket = "${var.base_bucket}"
     acl = "private"
+    policy = "${data.template_file.base_bucket-template.rendered}"
     versioning {
         enabled = true
     }
@@ -16,6 +29,7 @@ resource "aws_s3_bucket" "base-bucket" {
         Owner = "relops"
     }
 }
+
 resource "aws_s3_bucket_notification" "base_bucket-notify" {
     bucket = "${aws_s3_bucket.base-bucket.id}"
     topic {
