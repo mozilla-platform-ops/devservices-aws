@@ -27,3 +27,14 @@ variable "vpc_map" {
         treeherder-vpc = "10.191.3.0/24"
     }
 }
+
+variable "user_data_scripts" {
+    description = "List of user-data scripts to manage in S3 bucket"
+    default = "associate-eip,attach-vol,set_sysctl"
+    # ssh-pubkeys.tmpl handled via template_file resource in base/s3.tf
+}
+
+variable "ssh_key_names" {
+    description = "List of SSH pub keys to manage in S3 bucket"
+    default = "gszorc1,gszorc2,hwine1,klibby2,bjones,gszorc3,jwatkins1,smacleod1"
+}

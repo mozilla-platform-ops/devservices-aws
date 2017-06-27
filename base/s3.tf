@@ -46,9 +46,6 @@ resource "aws_s3_bucket_policy" "keys_bucket" {
     policy = "${data.aws_iam_policy_document.s3-ssh-keys-access.json}"
 }
 
-variable "ssh_key_names" {
-    default = "gszorc1,gszorc2,hwine1,klibby2,bjones,gszorc3,jwatkins1,smacleod1"
-}
 resource "aws_s3_bucket_object" "ssh_keys" {
     bucket = "${aws_s3_bucket.key_bucket.bucket}"
     key = "${element(split(",", var.ssh_key_names), count.index)}.pub"
