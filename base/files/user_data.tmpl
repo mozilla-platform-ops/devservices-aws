@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Caveat: any variable inside curly braces will be interpolated by terraform!
+# 
+# Sets up YUM EPEL repo, installs prereqs
+
+BUCKET=${s3_bucket}
+ADDL_USER_DATA=${addl_user_data}
+
+function epel_bootstrap() {
+    cat <<EOM > /etc/yum.repos.d/epel-bootstrap.repo
+[epel]
+name=Bootstrap EPEL
+mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-\$releasever&arch=\$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=0
+EOM
+    yum --enablerepo=epel -y install epel-release
+    rm -f /etc/yum.repos.d/epel-bootstrap.repo
+}
+
+## Test for OS, install dependencies
+if [ -f /etc/centos-release ]; then
+    epel_bootstrap
+    yum update -y
+    yum install -y python-pip jq curl
+elif [ -f /etc/redhat-release ]; then
+    epel_bootstrap
+    yum update -y
+    yum install -y python-pip jq curl
+elif [ -f /etc/debian_version ]; then
+    apt-get update -y
+    apt-get install -y python-pip jq curl
+fi
+
+## Install awscli
+pip install --upgrade awscli
+
+TMPDIR=$(mktemp -d)
+
+for SCRIPT in $(echo "$ADDL_USER_DATA" | tr , ' ')
+do
+    aws s3 cp s3://$BUCKET/user-data/$SCRIPT $TMPDIR
+    chmod 755 $TMPDIR/$SCRIPT
+    $TMPDIR/$SCRIPT
+done

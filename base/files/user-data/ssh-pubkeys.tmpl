@@ -1,0 +1,69 @@
+aveat: any variable inside curly braces will be interpolated by terraform!
+#
+# Create script and cron job to auto-update SSH pub keys
+
+## determine SSH_USER
+if [ -f /etc/centos-release ]; then
+    SSH_USER="centos"
+elif [ -f /etc/redhat-release ]; then
+    SSH_USER="ec2-user"
+elif [ -f /etc/debian_version ]; then
+    SSH_USER="ubuntu"
+fi
+
+mkdir /home/$SSH_USER/bin
+
+# Create SSH pub keys update script
+SSH_SCRIPT="/home/$SSH_USER/bin/update_ssh_keys.sh"
+
+# ---[ start of script creation ]---
+cat <<EOF > $SSH_SCRIPT
+#!/usr/bin/env bash
+BUCKET="${base_bucket}"
+PREFIX="${pubkey_bucket_prefix}"
+MARKER="# KEYS_BELOW_WILL_BE_UPDATED_BY_TERRAFORM"
+
+umask 0077
+cd ~/.ssh
+
+## Fetch keys
+if [ -d pub_key_files ]; then
+    rm -rf pub_key_files
+else
+    mkdir pub_key_files
+fi
+for path in \$(aws s3api list-objects --bucket \$BUCKET --prefix \$PREFIX | jq -r '.Contents[].Key')
+do
+    aws s3 cp s3://\$BUCKET/\$path pub_key_files/ > /dev/null
+done
+
+## Set marker
+if ! grep -Fxq "\$MARKER" authorized_keys;
+then
+  echo "\$MARKER" >> authorized_keys
+fi
+
+## Truncate to marker, append new keys, using temp file
+sed "/^\$MARKER/q" authorized_keys > authorized_keys.new
+for f in pub_key_files/*
+do
+    (cat "\$f"; echo) >> authorized_keys.new
+done
+sed -i '/^$/d' authorized_keys.new
+
+mv authorized_keys.new authorized_keys
+EOF
+# ---[ end of script creation ]---
+
+## Set perms
+chmod 755 $SSH_SCRIPT
+
+## Run script
+su $SSH_USER -c $SSH_SCRIPT
+
+## Add cronjob
+# centos crontab doesn't allow STDIN input
+if [ ! -f /etc/cron.d/update-ssh-keys ]; then
+    echo "*/10 * * * * $SSH_USER $SSH_SCRIPT" > /etc/cron.d/update-ssh-keys
+    chmod 644 /etc/cron.d/update-ssh-keys
+fi
