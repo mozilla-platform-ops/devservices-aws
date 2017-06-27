@@ -23,6 +23,19 @@ resource "aws_iam_role_policy" "ec2-read-s3-keys" {
     policy = "${file("files/ec2-read-s3-keys.json")}"
 }
 
+# Allow bastion hosts to AssumeRole
+resource "aws_iam_role" "ec2_manage_eip-role" {
+    name = "ec2_manage_eip"
+    assume_role_policy = "${file("files/ec2-assume-role.json")}"
+}
+
+# Allow bastion hosts to manage their Elastic IP
+resource "aws_iam_role_policy" "ec2_manage_eip-policy" {
+    name = "ec2_manage_eip-policy"
+    role = "${aws_iam_role.ec2_manage_eip-role.id}"
+    policy = "${file("files/ec2-manage-EIP.json")}"
+}
+
 # RDS role to send enhanced monitoring to CloudWatch
 # http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.html
 resource "aws_iam_role" "rds-monitoring-role" {
