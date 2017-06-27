@@ -8,7 +8,7 @@ resource "aws_launch_configuration" "jumphost_use1_lc" {
     instance_type = "t2.micro"
     image_id = "${lookup(var.centos7_amis,"us-east-1")}"
     key_name = "${var.key_name}"
-    security_groups = ["${aws_security_group.jumphost_use1_sg.name}"]
+    security_groups = ["${aws_security_group.jumphost_use1_sg.id}"]
     iam_instance_profile = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:instance-profile/ec2-read-ssh-keys"
     user_data = "${file("files/jumphost-userdata.sh")}"
     lifecycle {
@@ -62,7 +62,7 @@ resource "aws_launch_configuration" "jumphost_usw2_lc" {
     instance_type = "t2.micro"
     image_id = "${lookup(var.centos7_amis,"us-west-2")}"
     key_name = "${var.key_name}"
-    security_groups = ["${aws_security_group.jumphost_usw2_sg.name}"]
+    security_groups = ["${aws_security_group.jumphost_usw2_sg.id}"]
     iam_instance_profile = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:instance-profile/ec2-read-ssh-keys"
     user_data = "${file("files/jumphost-userdata.sh")}"
     lifecycle {
