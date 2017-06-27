@@ -11,7 +11,7 @@
 # EC2 role to read SSH public keys s3 bucket
 resource "aws_iam_instance_profile" "ec2-read-ssh-keys" {
     name = "ec2-read-ssh-keys"
-    roles = ["${aws_iam_role.ec2-assume-role.name}"]
+    role = "${aws_iam_role.ec2-assume-role.name}"
 }
 resource "aws_iam_role" "ec2-assume-role" {
     name = "ec2-assume-role"
