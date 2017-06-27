@@ -10,6 +10,21 @@ resource "aws_route53_zone" "mozops" {
     }
 }
 
+# Create subdomain for 'devservices.mozops.net'
+resource "aws_route53_zone" "devservices" {
+    name = "devservices.mozops.net"
+}
+resource "aws_route53_record" "devservices_mozops" {
+    zone_id = "${aws_route53_zone.mozops.zone_id}"
+    name = "devservices.mozops.net"
+    type = "NS"
+    ttl = "30"
+    records = ["${aws_route53_zone.devservices.name_servers.0}",
+               "${aws_route53_zone.devservices.name_servers.1}",
+               "${aws_route53_zone.devservices.name_servers.2}",
+               "${aws_route53_zone.devservices.name_servers.3}"]
+}
+
 # This NS record delegates the subdomain 'mozreview.mozops.net' to
 # the mozreview aws account.  The authoritative name servers can be
 # queried with the aws cli tools.
