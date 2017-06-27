@@ -13,6 +13,9 @@ output "allow_usw2_jumphost_sg_id" {
 output "jumphost_usw2_sg" {
     value = "${aws_security_group.jumphost_usw2_sg.name}"
 }
+output "jumphost_use1_eip" {
+    value = "${aws_eip.jumphost_use1_eip.public_ip}"
+}
 
 # mozops.net hosted zone ID
 output "mozops_route53_zone_id" {

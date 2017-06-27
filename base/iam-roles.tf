@@ -36,6 +36,12 @@ resource "aws_iam_role_policy" "ec2_manage_eip-policy" {
     policy = "${file("files/ec2-manage-EIP.json")}"
 }
 
+# Create instance profile for bastion hosts to manage EIP
+resource "aws_iam_instance_profile" "ec2_manage_eip-profile" {
+    name = "ec2_manage_eip"
+    role = "${aws_iam_role.ec2_manage_eip-role.name}"
+}
+
 # RDS role to send enhanced monitoring to CloudWatch
 # http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.html
 resource "aws_iam_role" "rds-monitoring-role" {
