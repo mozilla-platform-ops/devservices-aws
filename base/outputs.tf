@@ -10,11 +10,11 @@ output "allow_use1_jumphost_sg_id" {
 output "allow_usw2_jumphost_sg_id" {
     value = "${aws_security_group.jumphost_usw2_sg.id}"
 }
-output "jumphost_usw2_sg" {
-    value = "${aws_security_group.jumphost_usw2_sg.name}"
-}
 output "jumphost_use1" {
     value = "${aws_route53_record.jumphost_use1_devservices_mozops_net.name}"
+}
+output "jumphost_usw2" {
+    value = "${aws_route53_record.jumphost_usw2_devservices_mozops_net.name}"
 }
 
 # mozops.net hosted zone ID

@@ -60,3 +60,10 @@ resource "aws_route53_record" "jumphost_use1_devservices_mozops_net" {
     ttl = "60"
     records = ["${aws_eip.jumphost_use1_eip.public_ip}"]
 }
+resource "aws_route53_record" "jumphost_usw2_devservices_mozops_net" {
+    zone_id = "${aws_route53_zone.devservices.zone_id}"
+    name = "jumphost.usw2.devservices.mozops.net"
+    type = "A"
+    ttl = "60"
+    records = ["${aws_eip.jumphost_usw2_eip.public_ip}"]
+}
