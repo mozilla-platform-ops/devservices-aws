@@ -136,9 +136,9 @@ data "aws_iam_policy_document" "treeherder_rds" {
         ]
         resources = [
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:db:treeherder-dev*",
-            "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:og:treeherder-dev*",
+            "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:og:default:mysql-5-6",
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:pg:treeherder-dev*",
-            "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:snapshot:treeherder-*",
+            "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:snapshot:rds:treeherder-*",
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:es:treeherder-*",
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:ri:treeherder-dev*",
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:subgrp:treeherder-dbgrp"
