@@ -145,6 +145,16 @@ data "aws_iam_policy_document" "treeherder_rds" {
         ]
     }
     statement {
+        sid = "AllowDevDBManagePG"
+        effect = "Allow"
+        actions = [
+            "rds:ModifyDBInstance",
+        ]
+        resources = [
+            "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:pg:treeherder*",
+        ]
+    }
+    statement {
         effect = "Allow"
         actions = [
             "iam:ListAttachedUserPolicies",
