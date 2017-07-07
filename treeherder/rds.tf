@@ -58,18 +58,60 @@ resource "aws_db_parameter_group" "treeherder-pg" {
     }
 }
 
+# coordinate name change with aws_iam_policy_document.treeherder_rds in iam.tf
+resource "aws_db_parameter_group" "treeherder-pg-mysql57" {
+    name = "treeherder-mysql57"
+    family = "mysql5.7"
+    description = "Treeherder parameter group for MySQL 5.7"
+    parameter {
+        name = "character_set_server"
+        value = "utf8"
+    }
+    parameter {
+        name = "collation_server"
+        value = "utf8_bin"
+    }
+    parameter {
+        name = "log_output"
+        value = "FILE"
+    }
+    parameter {
+        name = "long_query_time"
+        value = "2"
+    }
+    parameter {
+        name = "slow_query_log"
+        value = "1"
+    }
+    parameter {
+        name = "sql_mode"
+        value = "NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES"
+    }
+    parameter {
+        name = "tx_isolation"
+        value = "READ-COMMITTED"
+    }
+    tags {
+        Name = "treeherder-prod-pg-mysql57"
+        App = "treeherder"
+        Type = "pg"
+        Env = "prod"
+        Owner = "relops"
+    }
+}
+
 resource "aws_db_instance" "treeherder-dev-rds" {
     identifier = "treeherder-dev"
     snapshot_identifier = "rds:treeherder-prod-2017-01-24-07-06"
     storage_type = "gp2"
     engine = "mysql"
-    engine_version = "5.6.34"
+    engine_version = "5.7.17"
     instance_class = "db.m4.xlarge"
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = false
     port = "3306"
     publicly_accessible = true
-    parameter_group_name = "treeherder"
+    parameter_group_name = "${aws_db_parameter_group.treeherder-pg-mysql57.name}"
     auto_minor_version_upgrade = false
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
