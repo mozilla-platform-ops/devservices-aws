@@ -130,7 +130,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     storage_type = "gp2"
     allocated_storage = 750
     engine = "mysql"
-    engine_version = "5.6.34"
+    engine_version = "5.7.17"
     instance_class = "db.m4.xlarge"
     username = "th_admin"
     password = "XXXXXXXXXXXXXXXX"
@@ -140,7 +140,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     multi_az = true
     port = "3306"
     publicly_accessible = true
-    parameter_group_name = "treeherder"
+    parameter_group_name = "${aws_db_parameter_group.treeherder-pg-mysql57.name}"
     auto_minor_version_upgrade = false
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
