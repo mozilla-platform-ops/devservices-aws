@@ -57,10 +57,37 @@ data "aws_iam_policy_document" "servo_ec2_instance_policy" {
             "${aws_cloudwatch_log_group.vcssync.arn}:log-stream:${aws_instance.servo_vcs_sync.id}",
         ]
     }
+
+    # Publish to Servo errors SNS topic.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "SNS:Publish",
+        ]
+        resources = [
+            "${aws_sns_topic.servo_errors.arn}",
+        ]
+    }
 }
 
 resource "aws_iam_role_policy" "vcs-sync-servo" {
     name = "vcs-sync-servo"
     role = "${aws_iam_role.servo-assume-role.id}"
     policy = "${data.aws_iam_policy_document.servo_ec2_instance_policy.json}"
+}
+
+data "aws_iam_policy_document" "sns_servo_errors_subscribe" {
+    statement = {
+        effect = "Allow"
+        actions = [
+            "SNS:Subscribe",
+        ]
+        resources = [
+            "${aws_sns_topic.servo_errors.arn}",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["*"]
+        }
+    }
 }
