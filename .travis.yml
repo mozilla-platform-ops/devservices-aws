@@ -1,0 +1,16 @@
+sudo: false
+dist: trusty
+lang: bash
+
+env:
+  # Whilst this directory is already on PATH, it's after /usr/bin/local.
+  # This prevents the older shellcheck in /usr/bin/local being used instead.
+  - PATH="$HOME/bin:$PATH"
+install:
+  - curl -sSfL -o /tmp/terraform.zip "https://releases.hashicorp.com/terraform/0.9.11/terraform_0.9.11_linux_amd64.zip"
+  - unzip /tmp/terraform.zip -d "$HOME/bin"
+  - terraform --version
+  - curl -sSfL "https://storage.googleapis.com/shellcheck/shellcheck-v0.4.6.linux.x86_64.tar.xz" | tar -xJ --strip-components=1 -C "$HOME/bin"
+  - shellcheck --version
+script:
+  - ./runtests.sh

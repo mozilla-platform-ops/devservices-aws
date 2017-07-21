@@ -1,6 +1,8 @@
 DevServices AWS Account Configuration
 =============================================
 
+[![Build Status](https://travis-ci.org/mozilla-platform-ops/devservices-aws.svg?branch=master)](https://travis-ci.org/mozilla-platform-ops/devservices-aws)
+
 https://moz-devservices.signin.aws.amazon.com/console
 
 Requirements
@@ -9,6 +11,7 @@ Requirements
 - AWS CLI
 - AWS credentials
 - (optional) [MFA helper scripts](https://github.com/mozilla-platform-ops/aws\_mfa\_scripts)
+- (optional) [Shellcheck](https://github.com/koalaman/shellcheck)
 
 Layout
 ------
@@ -29,6 +32,13 @@ Each environment will have a variety of terraform configuration files; they are 
 split up by AWS resource type to make it easier to read and find things. Additionally, 
 there should be an `init.sh` script which will configure terraform remote state for the
 environment and update any modules in use.
+
+Testing
+-------
+To test changes locally ensure Terraform and Shellcheck are on the PATH, then run:
+```bash
+$ ./runtests
+```
 
 Working with remote state
 -------------------------
