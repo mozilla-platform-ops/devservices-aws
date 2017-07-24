@@ -1,5 +1,9 @@
 # This file contains shared global resources
 
+terraform {
+    required_version = "> 0.9.7"
+}
+
 # account_id = ${data.aws_caller_identity.current.account_id}
 data "aws_caller_identity" "current" { }
 
