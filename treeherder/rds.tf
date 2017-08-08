@@ -198,7 +198,7 @@ resource "aws_db_instance" "treeherder-prod-ro-rds" {
     multi_az = false
     port = "3306"
     publicly_accessible = true
-    parameter_group_name = "treeherder"
+    parameter_group_name = "${aws_db_parameter_group.treeherder-pg-mysql57.name}"
     auto_minor_version_upgrade = false
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
