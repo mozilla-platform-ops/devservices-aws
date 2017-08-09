@@ -17,48 +17,6 @@ resource "aws_db_subnet_group" "treeherder-dbgrp" {
 }
 
 # coordinate name change with aws_iam_policy_document.treeherder_rds in iam.tf
-resource "aws_db_parameter_group" "treeherder-pg" {
-    name = "treeherder"
-    family = "mysql5.6"
-    description = "Main Treeherder parameter group"
-    parameter {
-        name = "character_set_server"
-        value = "utf8"
-    }
-    parameter {
-        name = "collation_server"
-        value = "utf8_bin"
-    }
-    parameter {
-        name = "log_output"
-        value = "FILE"
-    }
-    parameter {
-        name = "long_query_time"
-        value = "2"
-    }
-    parameter {
-        name = "slow_query_log"
-        value = "1"
-    }
-    parameter {
-        name = "sql_mode"
-        value = "NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES"
-    }
-    parameter {
-        name = "tx_isolation"
-        value = "READ-COMMITTED"
-    }
-    tags {
-        Name = "treeherder-prod-pg"
-        App = "treeherder"
-        Type = "pg"
-        Env = "prod"
-        Owner = "relops"
-    }
-}
-
-# coordinate name change with aws_iam_policy_document.treeherder_rds in iam.tf
 resource "aws_db_parameter_group" "treeherder-pg-mysql57" {
     name = "treeherder-mysql57"
     family = "mysql5.7"
