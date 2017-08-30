@@ -37,6 +37,11 @@ resource "aws_db_parameter_group" "treeherder-pg-mysql57" {
         name = "long_query_time"
         value = "2"
     }
+    # Terminate SELECT queries that take longer than 90 seconds to complete.
+    parameter {
+        name = "max_execution_time"
+        value = "90000"
+    }
     parameter {
         name = "slow_query_log"
         value = "1"
