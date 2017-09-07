@@ -91,7 +91,7 @@ resource "aws_db_instance" "treeherder-dev-rds" {
 resource "aws_db_instance" "treeherder-stage-rds" {
     identifier = "treeherder-stage"
     storage_type = "gp2"
-    allocated_storage = 750
+    allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.17"
     instance_class = "db.m4.xlarge"
@@ -122,7 +122,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
 resource "aws_db_instance" "treeherder-prod-rds" {
     identifier = "treeherder-prod"
     storage_type = "gp2"
-    allocated_storage = 750
+    allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.17"
     instance_class = "db.m4.2xlarge"
