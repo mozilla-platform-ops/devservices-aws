@@ -67,6 +67,7 @@ resource "aws_db_instance" "treeherder-dev-rds" {
     identifier = "treeherder-dev"
     snapshot_identifier = "rds:treeherder-prod-2017-01-24-07-06"
     storage_type = "gp2"
+    allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.17"
     instance_class = "db.m4.xlarge"
@@ -154,6 +155,7 @@ resource "aws_db_instance" "treeherder-prod-ro-rds" {
     identifier = "treeherder-prod-ro"
     replicate_source_db = "${aws_db_instance.treeherder-prod-rds.id}"
     storage_type = "gp2"
+    allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.17"
     instance_class = "db.m4.xlarge"
