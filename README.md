@@ -7,7 +7,7 @@ https://moz-devservices.signin.aws.amazon.com/console
 
 Requirements
 ------------
-- Terraform v0.7.12+
+- Terraform v0.10.0+
 - AWS CLI
 - AWS credentials
 - (optional) [MFA helper scripts](https://github.com/mozilla-platform-ops/aws\_mfa\_scripts)

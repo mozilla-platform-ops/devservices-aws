@@ -17,7 +17,7 @@ main() {
   git grep -El '^#!/.+\b(bash|sh)\b' -- './*' ':(exclude)*.tmpl' | xargs shellcheck
 
   echo -e '\n-----> Running terraform validate'
-  for d in $(git ls-files '*.tf' | xargs -n1 dirname | LC_ALL=C sort | uniq); do
+  for d in $(git ls-files '*.tf' | xargs -n1 dirname | LC_ALL=C sort | grep -E -v '^\.$' | uniq); do
     echo -en "${d} "
     terraform validate "${d}"
     echo "✓"
