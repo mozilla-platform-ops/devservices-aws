@@ -40,7 +40,7 @@ resource "aws_cloudfront_distribution" "bundles" {
     }
 
     viewer_certificate {
-        iam_certificate_id = "ASCAIRLY6OFDMQHNPMX5I"
+        acm_certificate_arn = "arn:aws:acm:us-east-1:${data.aws_caller_identity.current.account_id}:certificate/2d14b270-e4ec-4a12-8269-161b65ad5ccf"
         ssl_support_method = "sni-only"
         minimum_protocol_version = "TLSv1"
     }
