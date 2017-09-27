@@ -91,3 +91,32 @@ data "aws_iam_policy_document" "sns_servo_errors_subscribe" {
         }
     }
 }
+
+resource "aws_iam_instance_profile" "wpt-sync-testing" {
+    name = "wpt-sync-testing"
+    role = "${aws_iam_role.wpt-sync-testing-assume-role.name}"
+}
+
+data "aws_iam_policy_document" "wpt_sync_instance_policy" {
+    statement = {
+        effect = "Allow"
+        actions = [
+            "s3:Get*",
+            "s3:List*",
+        ]
+        resources = [
+            "arn:aws:s3:::${data.terraform_remote_state.base.key_bucket_id}/*",
+        ]
+    }
+}
+
+resource "aws_iam_role" "wpt-sync-testing-assume-role" {
+    name = "wpt-sync-testing-assume-role"
+    assume_role_policy = "${data.aws_iam_policy_document.ec2_assume_role.json}"
+}
+
+resource "aws_iam_role_policy" "wpt-sync-testing" {
+    name = "wpt-sync-testing"
+    role = "${aws_iam_role.wpt-sync-testing-assume-role.id}"
+    policy = "${data.aws_iam_policy_document.wpt_sync_instance_policy.json}"
+}

@@ -22,6 +22,7 @@ resource "aws_instance" "wpt_vcs_sync_testing" {
     instance_type = "t2.medium"
     instance_initiated_shutdown_behavior = "terminate"
 
+    iam_instance_profile = "${aws_iam_instance_profile.wpt-sync-testing.name}"
     user_data = "${file("files/jumphost-userdata.sh")}"
 
     key_name = "${var.key_name}"
