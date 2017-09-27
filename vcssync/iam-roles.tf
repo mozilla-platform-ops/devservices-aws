@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "ec2_assume_role" {
 
 resource "aws_iam_instance_profile" "servo" {
     name = "vcs-sync-servo"
-    roles = ["${aws_iam_role.servo-assume-role.name}"]
+    role = "${aws_iam_role.servo-assume-role.name}"
 }
 
 resource "aws_iam_role" "servo-assume-role" {
