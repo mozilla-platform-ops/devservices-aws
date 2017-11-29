@@ -2,6 +2,11 @@ resource "aws_sns_topic" "webhooks_all" {
     name = "github-webhooks-all"
 }
 
+resource "aws_sns_topic_policy" "webhooks_all" {
+    arn = "${aws_sns_topic.webhooks_all.arn}"
+    policy = "${data.aws_iam_policy_document.sns_webhooks_all.json}"
+}
+
 resource "aws_sns_topic" "webhooks_public" {
     name = "github-webhooks-public"
 }

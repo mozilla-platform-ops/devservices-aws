@@ -146,3 +146,22 @@ resource "aws_iam_role_policy" "lambda_github_webhooks_pulse" {
     role = "${aws_iam_role.lambda_github_webhooks_pulse.id}"
     policy = "${data.aws_iam_policy_document.lambda_github_webhooks_pulse.json}"
 }
+
+data "aws_iam_policy_document" "sns_webhooks_all" {
+    # Grant access to infosec-prod account.
+    statement = {
+        sid = "github_webhooks_all_infosec_subscribe"
+        effect = "Allow"
+        actions = [
+            "SNS:ListSubscriptionsByTopic",
+            "SNS:Subscribe",
+        ]
+        resources = [
+            "${aws_sns_topic.webhooks_all.arn}",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["371522382791"]
+        }
+    }
+}
