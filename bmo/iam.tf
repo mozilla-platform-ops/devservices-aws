@@ -75,3 +75,7 @@ data "aws_iam_policy_document" "bmo_dev_s3_access" {
 resource "aws_iam_user" "bugzilla_dev" {
     name = "bugzilla_dev"
 }
+
+resource "aws_iam_user" "bugzilla_prod" {
+    name = "bugzilla_prod"
+}
