@@ -74,7 +74,7 @@ resource "aws_s3_bucket" "prod_attachment_bucket" {
         App = "bugzilla"
         Env = "prod"
         Owner = "relops"
-        BugId = "1310041"
+        BugId = "1328659"
     }
 }
 
