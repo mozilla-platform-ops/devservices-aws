@@ -45,6 +45,50 @@ resource "aws_s3_bucket_policy" "hg_bundles_use1" {
     policy = "${data.aws_iam_policy_document.hg_bundles_use1.json}"
 }
 
+resource "aws_s3_bucket" "hg_bundles_use2" {
+    # Buckets are pinned to a specific region and therefore have to use
+    # an explicit provider for that region.
+    provider = "aws.use2"
+    bucket = "moz-hg-bundles-us-east-2"
+    acl = ""
+
+    tags {
+        App = "hgmo"
+        Env = "prod"
+        Owner = "gps@mozilla.com"
+        Bugid = "1041173"
+    }
+
+    # Serve the auto-generated index when / is requested.
+    website {
+        index_document = "index.html"
+    }
+
+    # Send access logs to S3 so we can audit and monitor.
+    logging {
+        target_bucket = "moz-devservices-logging-us-east-2"
+        target_prefix = "s3/hg-bundles/"
+    }
+
+    # Objects automatically expire after 1 week.
+    lifecycle_rule {
+        enabled = true
+        prefix = ""
+        expiration {
+            days = 7
+        }
+        noncurrent_version_expiration {
+            days = 1
+        }
+    }
+}
+
+resource "aws_s3_bucket_policy" "hg_bundles_use2" {
+    provider = "aws.use2"
+    bucket = "${aws_s3_bucket.hg_bundles_use2.bucket}"
+    policy = "${data.aws_iam_policy_document.hg_bundles_use2.json}"
+}
+
 resource "aws_s3_bucket" "hg_bundles_usw1" {
     provider = "aws.usw1"
     bucket = "moz-hg-bundles-us-west-1"
