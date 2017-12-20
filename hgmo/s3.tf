@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "hg_bundles_use1" {
     # an explicit provider for that region.
     provider = "aws.use1"
     bucket = "moz-hg-bundles-us-east-1"
-    acl = ""
+    acl = "private"
 
     tags {
         App = "hgmo"
@@ -50,7 +50,7 @@ resource "aws_s3_bucket" "hg_bundles_use2" {
     # an explicit provider for that region.
     provider = "aws.use2"
     bucket = "moz-hg-bundles-us-east-2"
-    acl = ""
+    acl = "private"
 
     tags {
         App = "hgmo"
@@ -92,7 +92,7 @@ resource "aws_s3_bucket_policy" "hg_bundles_use2" {
 resource "aws_s3_bucket" "hg_bundles_usw1" {
     provider = "aws.usw1"
     bucket = "moz-hg-bundles-us-west-1"
-    acl = ""
+    acl = "private"
 
     tags {
         App = "hgmo"
@@ -131,7 +131,7 @@ resource "aws_s3_bucket_policy" "hg_bundles_usw1" {
 resource "aws_s3_bucket" "hg_bundles_usw2" {
     provider = "aws.usw2"
     bucket = "moz-hg-bundles-us-west-2"
-    acl = ""
+    acl = "private"
 
     tags {
         App = "hgmo"
@@ -177,7 +177,7 @@ resource "aws_s3_bucket_policy" "hg_bundles_usw2" {
 resource "aws_s3_bucket" "hg_bundles_euc1" {
     provider = "aws.euc1"
     bucket = "moz-hg-bundles-eu-central-1"
-    acl = ""
+    acl = "private"
 
     tags {
         App = "hgmo"
@@ -218,7 +218,7 @@ resource "aws_s3_bucket_policy" "hg_bundles_euc1" {
 resource "aws_s3_bucket" "hg_events_usw2" {
     provider = "aws.usw2"
     bucket = "moz-hg-events-us-west-2"
-    acl = ""
+    acl = "private"
 
     tags {
         App = "hgmo"
