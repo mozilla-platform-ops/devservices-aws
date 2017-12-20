@@ -57,6 +57,60 @@ data "aws_iam_policy_document" "dev_attachment_bucket_access" {
     }
 }
 
+variable "prod_attachment_bucket" {
+    default = "moz-bugzillaprod-attach"
+    description = "Bucket for storing attachments (prod)"
+}
+
+resource "aws_s3_bucket" "prod_attachment_bucket" {
+    bucket = "${var.prod_attachment_bucket}"
+    policy = "${data.aws_iam_policy_document.prod_attachment_bucket_access.json}"
+    logging {
+        target_bucket = "${var.logging_bucket}"
+        target_prefix = "s3/bugzilla_prod_attach/"
+    }
+    tags {
+        Name = "bugzilla-prod-s3"
+        App = "bugzilla"
+        Env = "prod"
+        Owner = "relops"
+        BugId = "1328659"
+    }
+}
+
+data "aws_iam_policy_document" "prod_attachment_bucket_access" {
+    statement {
+        sid = "BugzillaProdS3AttachmentBucket"
+        effect = "Allow"
+        actions = [
+            "s3:ListBucket"
+        ]
+        resources = [
+            "arn:aws:s3:::${var.prod_attachment_bucket}"
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["${aws_iam_user.bugzilla_prod.arn}"]
+        }
+    }
+    statement {
+        sid = "BugzillaProdS3AttachmentObjects"
+        effect = "Allow"
+        actions = [
+            "s3:DeleteObject",
+            "s3:GetObject",
+            "s3:PutObject"
+        ]
+        resources = [
+            "arn:aws:s3:::${var.prod_attachment_bucket}/*"
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["${aws_iam_user.bugzilla_prod.arn}"]
+        }
+    }
+}
+
 resource "aws_s3_bucket" "carton_bucket" {
     bucket = "${var.carton_bucket}"
     policy = "${data.aws_iam_policy_document.carton_public_s3_access.json}"
