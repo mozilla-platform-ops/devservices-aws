@@ -21,6 +21,7 @@ data "aws_iam_policy_document" "hg_bundles_use1" {
         actions = [
             "s3:DeleteObject",
             "s3:GetObject",
+            "s3:ListBucket",
             "s3:PutObject",
         ]
         resources = [
@@ -38,9 +39,47 @@ data "aws_iam_policy_document" "hg_bundles_use1" {
         actions = [
             "s3:GetObjectTorrent",
             "s3:GetObject",
+            "s3:ListBucket",
         ]
         resources = [
             "${aws_s3_bucket.hg_bundles_use1.arn}/*",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["*"]
+        }
+    }
+}
+
+data "aws_iam_policy_document" "hg_bundles_use2" {
+    # Grant bundler user access to upload and modify objects.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "s3:DeleteObject",
+            "s3:GetObject",
+            "s3:ListBucket",
+            "s3:PutObject",
+        ]
+        resources = [
+            "${aws_s3_bucket.hg_bundles_use2.arn}/*",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = ["${aws_iam_user.hgbundler.arn}"]
+        }
+    }
+
+    # Grant all access to read S3 objects.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "s3:GetObjectTorrent",
+            "s3:GetObject",
+            "s3:ListBucket",
+        ]
+        resources = [
+            "${aws_s3_bucket.hg_bundles_use2.arn}/*",
         ]
         principals {
             type = "AWS"
@@ -56,6 +95,7 @@ data "aws_iam_policy_document" "hg_bundles_usw1" {
         actions = [
             "s3:DeleteObject",
             "s3:GetObject",
+            "s3:ListBucket",
             "s3:PutObject",
         ]
         resources = [
@@ -73,6 +113,7 @@ data "aws_iam_policy_document" "hg_bundles_usw1" {
         actions = [
             "s3:GetObjectTorrent",
             "s3:GetObject",
+            "s3:ListBucket",
         ]
         resources = [
             "${aws_s3_bucket.hg_bundles_usw1.arn}/*",
@@ -91,6 +132,7 @@ data "aws_iam_policy_document" "hg_bundles_usw2" {
         actions = [
             "s3:DeleteObject",
             "s3:GetObject",
+            "s3:ListBucket",
             "s3:PutObject",
         ]
         resources = [
@@ -108,6 +150,7 @@ data "aws_iam_policy_document" "hg_bundles_usw2" {
         actions = [
             "s3:GetObjectTorrent",
             "s3:GetObject",
+            "s3:ListBucket",
         ]
         resources = [
             "${aws_s3_bucket.hg_bundles_usw2.arn}/*",
@@ -126,6 +169,7 @@ data "aws_iam_policy_document" "hg_bundles_euc1" {
         actions = [
             "s3:DeleteObject",
             "s3:GetObject",
+            "s3:ListBucket",
             "s3:PutObject",
         ]
         resources = [
@@ -143,6 +187,7 @@ data "aws_iam_policy_document" "hg_bundles_euc1" {
         actions = [
             "s3:GetObjectTorrent",
             "s3:GetObject",
+            "s3:ListBucket",
         ]
         resources = [
             "${aws_s3_bucket.hg_bundles_euc1.arn}/*",
