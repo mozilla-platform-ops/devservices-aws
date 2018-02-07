@@ -238,3 +238,29 @@ resource "aws_s3_bucket_policy" "hg_events_usw2" {
     bucket = "${aws_s3_bucket.hg_events_usw2.bucket}"
     policy = "${data.aws_iam_policy_document.s3_hg_events_usw2.json}"
 }
+
+# Bucket to hold backups of Mercurial repositories.
+
+resource "aws_s3_bucket" "hg_backups" {
+    provider = "aws.usw2"
+    bucket = "moz-hg-backups"
+    acl = "private"
+
+    tags {
+        App = "hgmo"
+        Env = "prod"
+        Owner = "gps@mozilla.com"
+        Bugid = "1435904"
+    }
+
+    logging = {
+        target_bucket = "moz-devservices-logging-us-west-2"
+        target_prefix = "s3/hg-backups"
+    }
+}
+
+resource "aws_s3_bucket_policy" "hg_backups" {
+    provider = "aws.usw2"
+    bucket = "${aws_s3_bucket.hg_backups.bucket}"
+    policy = "${data.aws_iam_policy_document.s3_hg_backups.json}"
+}
