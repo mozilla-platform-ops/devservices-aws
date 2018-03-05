@@ -86,6 +86,7 @@ resource "aws_db_instance" "treeherder-dev-rds" {
     publicly_accessible = true
     parameter_group_name = "${aws_db_parameter_group.treeherder-pg-mysql57.name}"
     auto_minor_version_upgrade = false
+    skip_final_snapshot = true
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     tags {
