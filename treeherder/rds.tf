@@ -63,9 +63,18 @@ resource "aws_db_parameter_group" "treeherder-pg-mysql57" {
     }
 }
 
+# Provides a way for dev/stage instances to reference the most recent prod RDS snapshot
+# in `snapshot_identifier`, allowing them to be marked as tainted and automatically
+# recreated with the latest prod dataset, using:
+#    `terraform taint aws_db_instance.treeherder-{dev,stage}-rds`
+data "aws_db_snapshot" "treeherder-prod-latest" {
+    db_instance_identifier = "${aws_db_instance.treeherder-prod-rds.identifier}"
+    most_recent = true
+}
+
 resource "aws_db_instance" "treeherder-dev-rds" {
     identifier = "treeherder-dev"
-    snapshot_identifier = "rds:treeherder-prod-2017-01-24-07-06"
+    snapshot_identifier = "${data.aws_db_snapshot.treeherder-prod-latest.id}"
     storage_type = "gp2"
     allocated_storage = 1000
     engine = "mysql"
@@ -86,6 +95,10 @@ resource "aws_db_instance" "treeherder-dev-rds" {
         Env = "dev"
         Owner = "relops"
         BugID = "1309395"
+    }
+    lifecycle {
+        # Prevent the instance being recreated each time there is a new prod snapshot.
+        ignore_changes = ["snapshot_identifier"]
     }
 }
 
