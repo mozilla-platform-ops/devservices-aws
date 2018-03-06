@@ -105,13 +105,12 @@ resource "aws_db_instance" "treeherder-dev-rds" {
 
 resource "aws_db_instance" "treeherder-stage-rds" {
     identifier = "treeherder-stage"
+    snapshot_identifier = "${data.aws_db_snapshot.treeherder-prod-latest.id}"
     storage_type = "gp2"
     allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.17"
     instance_class = "db.m4.xlarge"
-    username = "th_admin"
-    password = "XXXXXXXXXXXXXXXX"
     backup_retention_period = 1
     backup_window = "07:00-07:30"
     maintenance_window = "Sun:08:00-Sun:08:30"
@@ -120,6 +119,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     publicly_accessible = true
     parameter_group_name = "${aws_db_parameter_group.treeherder-pg-mysql57.name}"
     auto_minor_version_upgrade = false
+    skip_final_snapshot = true
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
@@ -131,6 +131,10 @@ resource "aws_db_instance" "treeherder-stage-rds" {
         Env = "stage"
         Owner = "relops"
         BugID = "1176486"
+    }
+    lifecycle {
+        # Prevent the instance being recreated each time there is a new prod snapshot.
+        ignore_changes = ["snapshot_identifier"]
     }
 }
 
