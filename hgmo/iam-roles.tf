@@ -321,3 +321,25 @@ data "aws_iam_policy_document" "s3_hg_events_usw2" {
         }
     }
 }
+
+data "aws_iam_policy_document" "s3_hg_backups" {
+    # Grant bundler user access to upload objects.
+    statement = {
+        effect = "Allow"
+        actions = [
+            "s3:GetObject",
+            "s3:ListBucket",
+            "s3:PutObject",
+        ]
+        resources = [
+            "${aws_s3_bucket.hg_backups.arn}",
+            "${aws_s3_bucket.hg_backups.arn}/*",
+        ]
+        principals {
+            type = "AWS"
+            identifiers = [
+                "${aws_iam_user.hgbundler.arn}",
+            ]
+        }
+    }
+}
