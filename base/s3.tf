@@ -101,3 +101,33 @@ resource "aws_s3_bucket_object" "ssh_keys" {
     count = "${length(split(",", var.ssh_key_names))}"
     depends_on = ["aws_s3_bucket.key_bucket"]
 }
+
+resource "aws_s3_bucket" "logging_euc1" {
+    provider = "aws.eu-central-1"
+    bucket = "moz-devservices-logging-eu-central-1"
+    acl = "log-delivery-write"
+}
+
+resource "aws_s3_bucket" "logging_use1" {
+    provider = "aws.us-east-1"
+    bucket = "moz-devservices-logging-us-east-1"
+    acl = "log-delivery-write"
+}
+
+resource "aws_s3_bucket" "logging_use2" {
+    provider = "aws.us-east-2"
+    bucket = "moz-devservices-logging-us-east-2"
+    acl = "log-delivery-write"
+}
+
+resource "aws_s3_bucket" "logging_usw1" {
+    provider = "aws.us-west-1"
+    bucket = "moz-devservices-logging-us-west-1"
+    acl = "log-delivery-write"
+}
+
+resource "aws_s3_bucket" "logging_usw2" {
+    provider = "aws.us-west-2"
+    bucket = "moz-devservices-logging-us-west-2"
+    acl = "log-delivery-write"
+}
