@@ -41,5 +41,5 @@ variable "pubkey_bucket_prefix" {
 
 variable "ssh_key_names" {
     description = "List of SSH pub keys to manage in S3 bucket"
-    default = "hwine1,klibby2,bjones,jwatkins1,smacleod1"
+    default = "klibby2,bjones,jwatkins1,smacleod1"
 }
