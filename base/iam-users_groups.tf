@@ -13,8 +13,6 @@ resource "aws_iam_group_membership" "admin-groupmem" {
         "${aws_iam_user.dividehex.name}",
         "${aws_iam_user.dhouse.name}",
         "${aws_iam_user.fubar.name}",
-        "${aws_iam_user.gps.name}",
-        "${aws_iam_user.gps2.name}",
     ]
 }
 resource "aws_iam_user" "dividehex" {
@@ -25,14 +23,6 @@ resource "aws_iam_user" "dhouse" {
 }
 resource "aws_iam_user" "fubar" {
     name = "fubar"
-}
-resource "aws_iam_user" "gps" {
-    name = "gps"
-}
-# IAM limits you to 2 access keys per user and gps uses separate access keys
-# per physical device. So he has multiple users.
-resource "aws_iam_user" "gps2" {
-    name = "gps2"
 }
 resource "aws_iam_user" "hwine" {
     name = "hwine"
