@@ -24,9 +24,6 @@ resource "aws_iam_user" "dhouse" {
 resource "aws_iam_user" "fubar" {
     name = "fubar"
 }
-resource "aws_iam_user" "hwine" {
-    name = "hwine"
-}
 
 #---[ misc accounts ]---
 resource "aws_iam_user" "vcs-archive-access" {
@@ -42,7 +39,6 @@ resource "aws_iam_group_membership" "vcssync-groupmem" {
     group = "${aws_iam_group.vcssync-group.name}"
     users = [
         "${aws_iam_user.asingh.name}",
-        "${aws_iam_user.hwine.name}",
         "${aws_iam_user.vcssync-log-writer.name}",
         "${aws_iam_user.vcssync-logwriter-releng.name}"
     ]
