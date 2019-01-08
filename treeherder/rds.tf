@@ -78,7 +78,7 @@ resource "aws_db_instance" "treeherder-dev-rds" {
     storage_type = "gp2"
     allocated_storage = 1000
     engine = "mysql"
-    engine_version = "5.7.21"
+    engine_version = "5.7.23"
     instance_class = "db.m4.xlarge"
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = false
