@@ -109,7 +109,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     storage_type = "gp2"
     allocated_storage = 1000
     engine = "mysql"
-    engine_version = "5.7.17"
+    engine_version = "5.7.23"
     instance_class = "db.m4.xlarge"
     backup_retention_period = 1
     backup_window = "07:00-07:30"
@@ -175,7 +175,7 @@ resource "aws_db_instance" "treeherder-prod-ro-rds" {
     storage_type = "gp2"
     allocated_storage = 1000
     engine = "mysql"
-    engine_version = "5.7.17"
+    engine_version = "5.7.23"
     instance_class = "db.m4.xlarge"
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = false
