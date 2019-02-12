@@ -14,6 +14,10 @@ resource "aws_iam_user" "wlachance" {
     name = "wlachance"
 }
 
+resource "aws_iam_user" "sclements" {
+    name = "sclements"
+}
+
 resource "aws_iam_group" "treeherder_rds_access-group" {
     name = "treeherder_rds_access-group"
 }
@@ -25,7 +29,8 @@ resource "aws_iam_group_membership" "treeherder_rds_access-groupmem" {
         "${aws_iam_user.cdawson.name}",
         "${aws_iam_user.emorley.name}",
         "${aws_iam_user.jgraham.name}",
-        "${aws_iam_user.wlachance.name}"
+        "${aws_iam_user.wlachance.name}",
+        "${aws_iam_user.sclements.name}"
     ]
 }
 
