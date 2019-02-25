@@ -40,6 +40,21 @@ resource "aws_route53_record" "mozreview_mozops" {
                "ns-1522.awsdns-62.org"]
 }
 
+# This NS record delegates the subdomain 'relops.mozops.net' to
+# the relops aws account.  The authoritative name servers can be
+# queried with the aws cli tools.
+# eg. aws route53 get-hosted-zone --id Z2GVPYEJ4ZO8P1
+resource "aws_route53_record" "relops_mozops" {
+    zone_id = "${aws_route53_zone.mozops.zone_id}"
+    name = "relops.mozops.net"
+    type = "NS"
+    ttl = "300"
+    records = ["ns-1426.awsdns-50.org",
+               "ns-545.awsdns-04.net",
+               "ns-1575.awsdns-04.co.uk",
+               "ns-159.awsdns-19.com"]
+}
+
 # This record is used by a server that receives Firefox build
 # system metrics. The record should be temporary until more permanent
 # ingestion is stood up. Tracked in bug 1242017.
