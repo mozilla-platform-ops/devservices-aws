@@ -152,6 +152,7 @@ data "aws_iam_policy_document" "treeherder_rds" {
         effect = "Allow"
         actions = [
             "rds:ModifyDBInstance",
+            "rds:RestoreDBInstanceFromDBSnapshot"
         ]
         resources = [
             "arn:aws:rds:${var.region}:${data.aws_caller_identity.current.account_id}:pg:treeherder*",
