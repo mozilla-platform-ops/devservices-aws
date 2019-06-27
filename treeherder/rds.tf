@@ -110,7 +110,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.23"
-    instance_class = "db.m4.xlarge"
+    instance_class = "db.m5.2xlarge"
     backup_retention_period = 1
     backup_window = "07:00-07:30"
     maintenance_window = "Sun:08:00-Sun:08:30"
