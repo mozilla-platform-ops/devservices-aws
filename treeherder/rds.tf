@@ -79,7 +79,7 @@ resource "aws_db_instance" "treeherder-dev-rds" {
     allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.23"
-    instance_class = "db.m4.xlarge"
+    instance_class = "db.m5.xlarge"
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = false
     port = "3306"
@@ -144,7 +144,7 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.23"
-    instance_class = "db.m4.2xlarge"
+    instance_class = "db.m5.2xlarge"
     username = "th_admin"
     password = "XXXXXXXXXXXXXXXX"
     backup_retention_period = 1
@@ -176,7 +176,7 @@ resource "aws_db_instance" "treeherder-prod-ro-rds" {
     allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.23"
-    instance_class = "db.m4.xlarge"
+    instance_class = "db.m5.xlarge"
     maintenance_window = "Sun:08:00-Sun:08:30"
     multi_az = false
     port = "3306"
