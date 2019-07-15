@@ -107,7 +107,8 @@ resource "aws_db_instance" "treeherder-dev-rds" {
 resource "aws_db_instance" "treeherder-stage-rds" {
     identifier = "treeherder-stage"
     snapshot_identifier = "${data.aws_db_snapshot.treeherder-prod-latest.id}"
-    storage_type = "gp2"
+    storage_type = "io1"
+    iops = 6000
     allocated_storage = 1000
     engine = "mysql"
     engine_version = "5.7.23"
