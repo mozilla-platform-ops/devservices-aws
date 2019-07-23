@@ -173,7 +173,7 @@ resource "aws_db_instance" "treeherder-prod-ro-rds" {
     identifier = "treeherder-prod-ro"
     replicate_source_db = "${aws_db_instance.treeherder-prod-rds.id}"
     storage_type = "gp2"
-    allocated_storage = 1000
+    allocated_storage = 2000
     engine = "mysql"
     engine_version = "5.7.23"
     instance_class = "db.m5.xlarge"
