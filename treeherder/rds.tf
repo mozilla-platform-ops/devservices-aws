@@ -30,6 +30,10 @@ resource "aws_db_parameter_group" "treeherder-pg-mysql57" {
         value = "utf8_bin"
     }
     parameter {
+        name = "log_bin_trust_function_creators"
+        value = "1"
+    }
+    parameter {
         name = "log_output"
         value = "FILE"
     }
