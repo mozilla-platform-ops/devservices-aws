@@ -164,6 +164,12 @@ data "aws_iam_policy_document" "treeherder_rds" {
         ]
     }
     statement {
+        sid = "AllowPIAccess"
+        effect = "Allow"
+        actions = [ "pi:*" ]
+        resources = [ "arn:aws:pi:*:*:metrics/rds/*" ]
+    }
+    statement {
         effect = "Allow"
         actions = [
             "iam:ListAttachedUserPolicies",
