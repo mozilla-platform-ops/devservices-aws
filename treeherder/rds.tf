@@ -72,6 +72,61 @@ resource "aws_db_parameter_group" "treeherder-pg-mysql57" {
     }
 }
 
+resource "aws_db_parameter_group" "treeherder-dev-pg-mysql57" {
+    name = "treeherder-dev-mysql57"
+    family = "mysql5.7"
+    description = "Treeherder dev parameter group for MySQL 5.7"
+    parameter {
+        name = "character_set_server"
+        value = "utf8"
+    }
+    parameter {
+        name = "collation_server"
+        value = "utf8_bin"
+    }
+    parameter {
+        name = "log_bin_trust_function_creators"
+        value = "1"
+    }
+    parameter {
+        name = "log_output"
+        value = "FILE"
+    }
+    parameter {
+        name = "long_query_time"
+        value = "2"
+    }
+    # Terminate SELECT queries that take longer than 180 seconds to complete.
+    parameter {
+        name = "max_execution_time"
+        value = "180000"
+    }
+    parameter {
+        name = "slow_query_log"
+        value = "1"
+    }
+    parameter {
+        name = "sql_mode"
+        value = "NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES"
+    }
+    parameter {
+        name = "tx_isolation"
+        value = "READ-COMMITTED"
+    }
+    parameter {
+        name = "performance_schema"
+        value = "1"
+        apply_method = "pending-reboot"
+    }
+    tags {
+        Name = "treeherder-dev-prod-pg-mysql57"
+        App = "treeherder"
+        Type = "pg"
+        Env = "dev"
+        Owner = "relops"
+    }
+}
+
 # Provides a way for dev/stage instances to reference the most recent prod RDS snapshot
 # in `snapshot_identifier`, allowing them to be marked as tainted and automatically
 # recreated with the latest prod dataset, using:
@@ -93,11 +148,13 @@ resource "aws_db_instance" "treeherder-dev-rds" {
     multi_az = false
     port = "3306"
     publicly_accessible = true
-    parameter_group_name = "${aws_db_parameter_group.treeherder-pg-mysql57.name}"
+    parameter_group_name = "${aws_db_parameter_group.treeherder-dev-pg-mysql57.name}"
     auto_minor_version_upgrade = false
     skip_final_snapshot = true
     db_subnet_group_name = "${aws_db_subnet_group.treeherder-dbgrp.name}"
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
+    monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
+    monitoring_interval = 60
     tags {
         Name = "treeherder-dev-rds"
         App = "treeherder"
