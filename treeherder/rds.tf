@@ -133,6 +133,11 @@ resource "aws_db_parameter_group" "treeherder-dev-pg-mysql57" {
         name = "innodb_lru_scan_depth"
         value = "256"
     }
+    # Original
+    parameter {
+        name = "innodb_log_file_size"
+        value = "8589934592"
+    }
     tags {
         Name = "treeherder-dev-prod-pg-mysql57"
         App = "treeherder"
