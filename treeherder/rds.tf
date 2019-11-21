@@ -137,6 +137,7 @@ resource "aws_db_parameter_group" "treeherder-dev-pg-mysql57" {
     parameter {
         name = "innodb_log_file_size"
         value = "8589934592"
+        apply_method = "pending-reboot"
     }
     tags {
         Name = "treeherder-dev-prod-pg-mysql57"
