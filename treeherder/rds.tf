@@ -61,6 +61,7 @@ resource "aws_db_parameter_group" "treeherder-pg-mysql57" {
     parameter {
         name = "performance_schema"
         value = "1"
+        apply_method = "pending-reboot"
     }
     tags {
         Name = "treeherder-prod-pg-mysql57"
