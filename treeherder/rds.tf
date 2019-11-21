@@ -63,6 +63,39 @@ resource "aws_db_parameter_group" "treeherder-pg-mysql57" {
         value = "1"
         apply_method = "pending-reboot"
     }
+    # Original 200
+    parameter {
+        name = "innodb_io_capacity"
+        value = "1000"
+    }
+    # Original 2000
+    parameter {
+        name = "innodb_io_capacity_max"
+        value = "5000"
+    }
+    # Original 1024
+    parameter {
+        name = "innodb_lru_scan_depth"
+        value = "256"
+    }
+    # Original 134217728
+    parameter {
+        name = "innodb_log_file_size"
+        value = "17179869184"
+        apply_method = "pending-reboot"
+    }
+    # Original 4
+    parameter {
+        name = "innodb_read_io_threads"
+        value = "8"
+        apply_method = "pending-reboot"
+    }
+    # Original 4
+    parameter {
+        name = "innodb_write_io_threads"
+        value = "8"
+        apply_method = "pending-reboot"
+    }
     tags {
         Name = "treeherder-prod-pg-mysql57"
         App = "treeherder"
@@ -133,7 +166,7 @@ resource "aws_db_parameter_group" "treeherder-dev-pg-mysql57" {
         name = "innodb_lru_scan_depth"
         value = "256"
     }
-    # Original
+    # Original 11811160064
     parameter {
         name = "innodb_log_file_size"
         value = "8589934592"
