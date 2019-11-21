@@ -58,6 +58,11 @@ resource "aws_db_parameter_group" "treeherder-pg-mysql57" {
         name = "tx_isolation"
         value = "READ-COMMITTED"
     }
+    parameter {
+        name = "performance_schema"
+        value = "1"
+        apply_method = "pending-reboot"
+    }
     tags {
         Name = "treeherder-prod-pg-mysql57"
         App = "treeherder"
