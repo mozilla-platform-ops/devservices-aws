@@ -2,10 +2,6 @@ resource "aws_iam_user" "dkl" {
     name = "dkl"
 }
 
-resource "aws_iam_user" "dylan" {
-    name = "dylan"
-}
-
 resource "aws_iam_user" "glob" {
     name = "glob"
 }
@@ -19,7 +15,6 @@ resource "aws_iam_group_membership" "bmo_devs-groupmem" {
     group = "${aws_iam_group.bmo_devs.name}"
     users = [
         "${aws_iam_user.dkl.name}",
-        "${aws_iam_user.dylan.name}",
         "${aws_iam_user.glob.name}"
     ]
 }
