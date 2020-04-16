@@ -265,7 +265,7 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     iops = 7000
     engine = "mysql"
     engine_version = "5.7.23"
-    instance_class = "db.m5.4xlarge"
+    instance_class = "db.m5.2xlarge"
     username = "th_admin"
     password = "XXXXXXXXXXXXXXXX"
     backup_retention_period = 1
