@@ -260,9 +260,8 @@ resource "aws_db_instance" "treeherder-stage-rds" {
 
 resource "aws_db_instance" "treeherder-prod-rds" {
     identifier = "treeherder-prod"
-    storage_type = "io1"
+    storage_type = "gp2"
     allocated_storage = 2000
-    iops = 7000
     engine = "mysql"
     engine_version = "5.7.23"
     instance_class = "db.m5.2xlarge"
