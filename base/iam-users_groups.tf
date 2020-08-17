@@ -12,7 +12,6 @@ resource "aws_iam_group_membership" "admin-groupmem" {
     users = [
         "${aws_iam_user.dividehex.name}",
         "${aws_iam_user.dhouse.name}",
-        "${aws_iam_user.fubar.name}",
     ]
 }
 resource "aws_iam_user" "dividehex" {
@@ -20,9 +19,6 @@ resource "aws_iam_user" "dividehex" {
 }
 resource "aws_iam_user" "dhouse" {
     name = "dhouse"
-}
-resource "aws_iam_user" "fubar" {
-    name = "fubar"
 }
 
 #---[ misc accounts ]---
