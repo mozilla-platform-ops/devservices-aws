@@ -2,18 +2,6 @@ resource "aws_iam_user" "cdawson" {
     name = "cdawson"
 }
 
-resource "aws_iam_user" "armenzg" {
-    name = "armenzg"
-}
-
-resource "aws_iam_user" "jgraham" {
-    name = "jgraham"
-}
-
-resource "aws_iam_user" "wlachance" {
-    name = "wlachance"
-}
-
 resource "aws_iam_user" "sclements" {
     name = "sclements"
 }
@@ -27,9 +15,6 @@ resource "aws_iam_group_membership" "treeherder_rds_access-groupmem" {
     group = "${aws_iam_group.treeherder_rds_access-group.name}"
     users = [
         "${aws_iam_user.cdawson.name}",
-        "${aws_iam_user.armenzg.name}",
-        "${aws_iam_user.jgraham.name}",
-        "${aws_iam_user.wlachance.name}",
         "${aws_iam_user.sclements.name}"
     ]
 }
