@@ -194,7 +194,7 @@ resource "aws_db_instance" "treeherder-dev-rds" {
     identifier = "treeherder-dev"
     snapshot_identifier = "${data.aws_db_snapshot.treeherder-prod-latest.id}"
     storage_type = "gp2"
-    allocated_storage = 1100
+    allocated_storage = 2000
     engine = "mysql"
     engine_version = "5.7.23"
     instance_class = "db.m5.xlarge"
@@ -228,7 +228,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     identifier = "treeherder-stage"
     snapshot_identifier = "${data.aws_db_snapshot.treeherder-prod-latest.id}"
     storage_type = "gp2"
-    allocated_storage = 1100
+    allocated_storage = 2000
     engine = "mysql"
     engine_version = "5.7.23"
     instance_class = "db.m5.xlarge"
