@@ -13,7 +13,7 @@ env:
   # This prevents the older shellcheck in /usr/bin/local being used instead.
   - PATH="$HOME/bin:$PATH"
 install:
-  - curl -sSfL -o /tmp/terraform.zip "https://releases.hashicorp.com/terraform/0.9.11/terraform_0.9.11_linux_amd64.zip"
+  - curl -sSfL -o /tmp/terraform.zip "https://releases.hashicorp.com/terraform/0.11.14/terraform_0.11.14_linux_amd64.zip"
   - unzip /tmp/terraform.zip -d "$HOME/bin"
   - terraform --version
   - shellcheck --version
