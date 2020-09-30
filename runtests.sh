@@ -19,7 +19,7 @@ main() {
   echo -e '\n-----> Running terraform validate'
   for d in $(git ls-files '*.tf' | xargs -n1 dirname | LC_ALL=C sort | grep -E -v '^\.$' | uniq); do
     echo -en "${d} "
-    terraform validate "${d}"
+    terraform validate -check-variables=false "${d}"
     echo "✓"
   done
 

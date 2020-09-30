@@ -194,7 +194,7 @@ resource "aws_db_instance" "treeherder-dev-rds" {
     identifier = "treeherder-dev"
     snapshot_identifier = "${data.aws_db_snapshot.treeherder-prod-latest.id}"
     storage_type = "gp2"
-    allocated_storage = 1100
+    allocated_storage = 2000
     engine = "mysql"
     engine_version = "5.7.23"
     instance_class = "db.m5.xlarge"
@@ -209,6 +209,7 @@ resource "aws_db_instance" "treeherder-dev-rds" {
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
     monitoring_interval = 60
+    performance_insights_enabled = true
     tags {
         Name = "treeherder-dev-rds"
         App = "treeherder"
@@ -227,7 +228,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     identifier = "treeherder-stage"
     snapshot_identifier = "${data.aws_db_snapshot.treeherder-prod-latest.id}"
     storage_type = "gp2"
-    allocated_storage = 1100
+    allocated_storage = 2000
     engine = "mysql"
     engine_version = "5.7.23"
     instance_class = "db.m5.xlarge"
@@ -244,6 +245,7 @@ resource "aws_db_instance" "treeherder-stage-rds" {
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
     monitoring_interval = 60
+    performance_insights_enabled = true
     tags {
         Name = "treeherder-stage-rds"
         App = "treeherder"
@@ -279,6 +281,7 @@ resource "aws_db_instance" "treeherder-prod-rds" {
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
     monitoring_interval = 60
+    performance_insights_enabled = true
     tags {
         Name = "treeherder-prod-rds"
         App = "treeherder"
@@ -306,6 +309,7 @@ resource "aws_db_instance" "treeherder-prod-ro-rds" {
     vpc_security_group_ids = ["${aws_security_group.treeherder_heroku-sg.id}"]
     monitoring_role_arn = "arn:aws:iam::699292812394:role/rds-monitoring-role"
     monitoring_interval = 60
+    performance_insights_enabled = false
     tags {
         Name = "treeherder-prod-ro-rds"
         App = "treeherder"
