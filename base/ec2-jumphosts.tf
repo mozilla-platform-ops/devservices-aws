@@ -33,8 +33,8 @@ resource "aws_autoscaling_group" "jumphost_use1_asg" {
     provider = "aws.us-east-1"
     name = "jumphost-asg"
     vpc_zone_identifier = ["${aws_subnet.jumphost_use1_subnet.id}"]
-    max_size = 2
-    min_size = 1
+    max_size = 0
+    min_size = 0
     #force_delete = true
     launch_configuration = "${aws_launch_configuration.jumphost_use1_lc.name}"
     lifecycle {
@@ -97,8 +97,8 @@ resource "aws_autoscaling_group" "jumphost_usw2_asg" {
     provider = "aws.us-west-2"
     name = "jumphost-asg"
     vpc_zone_identifier = ["${aws_subnet.jumphost_usw2_subnet.id}"]
-    max_size = 2
-    min_size = 1
+    max_size = 0
+    min_size = 0
     #force_delete = true
     launch_configuration = "${aws_launch_configuration.jumphost_usw2_lc.name}"
     lifecycle {
